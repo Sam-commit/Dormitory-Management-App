@@ -27,6 +27,7 @@ class _UserHomePageState extends State<UserHomePage> {
   }
 
   Widget build(BuildContext context) {
+
     return Scaffold(
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _index,
@@ -52,16 +53,13 @@ class _UserHomePageState extends State<UserHomePage> {
             controller: _pageController,
           ));
 
+
   }
 
   void onPageChanged(int page) {
     setState(() {
       _index = page;
     });
-    void onTabTapped(int index) {
-      this._pageController.animateToPage(index,
-          duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
-    }
   }
 }
 
