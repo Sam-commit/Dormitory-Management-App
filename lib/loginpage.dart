@@ -62,7 +62,7 @@ class _LoginpageState extends State<Loginpage> {
                 Functions func = Functions(email, password);
 
                 if (await func.signin()) {
-                  if (func.userpower()) {
+                  if (await func.userpower()) {
                     Navigator.push(
                         context,
                         MaterialPageRoute(

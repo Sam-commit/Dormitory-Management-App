@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dormitory_management/hostel_details.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Homepage extends StatefulWidget {
   Homepage({required this.admin});
@@ -73,6 +74,14 @@ class _HomepageState extends State<Homepage> {
         ),
       ),
       appBar: AppBar(
+        actions: [
+          IconButton(onPressed: ()async{
+
+            await FirebaseAuth.instance.signOut();
+            Navigator.pop(context) ;
+
+          }, icon: const Icon(Icons.logout))
+        ],
         title: const Text("Home Page"),
       ),
       body: ListView.builder(
