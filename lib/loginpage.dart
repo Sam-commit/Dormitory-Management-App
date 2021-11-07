@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'admin_homepage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:dormitory_management/functions.dart';
+import 'userHomePage.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({Key? key}) : super(key: key);
@@ -61,11 +62,8 @@ class _LoginpageState extends State<Loginpage> {
                 Functions func = Functions(email, password);
                 await func.signin();
 
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            Homepage(admin: func.userpower())));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => UserHomePage()));
               },
               child: const Text("Log In")),
         ],
