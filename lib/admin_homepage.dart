@@ -12,7 +12,6 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-
   List<String> hostels = const [
     "Boys Hostel 1",
     "Boys Hostel 2",
@@ -22,7 +21,6 @@ class _HomepageState extends State<Homepage> {
     "Girls Hostel 1",
     "Girls Hostel 2"
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -75,27 +73,31 @@ class _HomepageState extends State<Homepage> {
       ),
       appBar: AppBar(
         actions: [
-          IconButton(onPressed: ()async{
-
-            await FirebaseAuth.instance.signOut();
-            Navigator.pop(context) ;
-
-          }, icon: const Icon(Icons.logout))
+          IconButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.logout))
         ],
         title: const Text("Home Page"),
       ),
       body: ListView.builder(
-          itemCount: hostels.length,
-          itemBuilder: (context,index){
-
-            return ListTile(
-              title: Text(hostels[index]),
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Hosteldetails(title: hostels[index],)));
-              },
-            );
-
-          },
+        itemCount: hostels.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(hostels[index]),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Hosteldetails(
+                            title: hostels[index],
+                            val: index,
+                          )));
+            },
+          );
+        },
       ),
     );
   }
