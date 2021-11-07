@@ -7,16 +7,13 @@ import 'package:dormitory_management/functions.dart';
 class Loginpage extends StatefulWidget {
   const Loginpage({Key? key}) : super(key: key);
 
-
   @override
   _LoginpageState createState() => _LoginpageState();
 }
 
 class _LoginpageState extends State<Loginpage> {
-
-  String email="";
-  String password="";
-
+  String email = "";
+  String password = "";
 
   @override
   void initState() {
@@ -27,53 +24,52 @@ class _LoginpageState extends State<Loginpage> {
     });
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Login Page"),),
+      appBar: AppBar(
+        title: const Text("Login Page"),
+      ),
       body: Column(
         children: [
           TextField(
-
-            onChanged: (value){
+            onChanged: (value) {
               email = value;
             },
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
               hintText: "Email",
             ),
-
           ),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           TextField(
-
-            onChanged: (value){
+            onChanged: (value) {
               password = value;
             },
-            
             obscureText: true,
             decoration: InputDecoration(
               hintText: "Password",
             ),
           ),
-          SizedBox(height: 40,),
+          SizedBox(
+            height: 40,
+          ),
+          ElevatedButton(
+              onPressed: () async {
+                Functions func = Functions(email, password);
+                await func.signin();
 
-          ElevatedButton(onPressed: () async{
-
-            Functions func = Functions(email,password);
-            await func.signin();
-              
-            Navigator.push(context, MaterialPageRoute(builder: (context)=> Homepage() ));
-            
-          }, child: const Text("Log In")),
-
-
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            Homepage(admin: func.userpower())));
+              },
+              child: const Text("Log In")),
         ],
       ),
-
     );
   }
 }
