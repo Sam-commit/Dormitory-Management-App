@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:dormitory_management/admin_homepage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class UserHomePage extends StatefulWidget {
   @override
@@ -26,34 +27,31 @@ class _UserHomePageState extends State<UserHomePage> {
   }
 
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark(),
-      home: SafeArea(
-        child: Scaffold(
-            bottomNavigationBar: BottomNavigationBar(
-              currentIndex: _index,
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  title: Text("Home"),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.mail),
-                  title: Text("IDK"),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                  title: Text("Profile"),
-                ),
-              ],
-            ),
-            body: PageView(
-              children: pages,
-              onPageChanged: onPageChanged,
-              controller: _pageController,
-            )),
-      ),
-    );
+    return Scaffold(
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _index,
+            items: [
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: "Home",
+              ),
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.mail),
+                label: "IDK",
+              ),
+              const BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: "Profile",
+
+              ),
+            ],
+          ),
+          body: PageView(
+            children: pages,
+            onPageChanged: onPageChanged,
+            controller: _pageController,
+          ));
+
   }
 
   void onPageChanged(int page) {
@@ -70,23 +68,29 @@ class _UserHomePageState extends State<UserHomePage> {
 class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return
+       Scaffold(
         body: Center(
           child: Container(child: Text("Profile")),
         ),
-      ),
-    );
+      );
+
   }
 }
 
 class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark(),
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
+          actions: [
+            IconButton(onPressed: ()async{
+
+              await FirebaseAuth.instance.signOut();
+              Navigator.pop(context) ;
+
+            }, icon: const Icon(Icons.logout))
+          ],
           title: Text("HomePage"),
         ),
         body: Center(
@@ -106,8 +110,8 @@ class FirstScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
+      );
+
   }
 }
 

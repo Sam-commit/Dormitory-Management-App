@@ -38,11 +38,11 @@ class _LoginpageState extends State<Loginpage> {
               email = value;
             },
             keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Email",
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           TextField(
@@ -50,20 +50,32 @@ class _LoginpageState extends State<Loginpage> {
               password = value;
             },
             obscureText: true,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Password",
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
           ElevatedButton(
               onPressed: () async {
                 Functions func = Functions(email, password);
-                await func.signin();
 
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => UserHomePage()));
+                if (await func.signin()) {
+                  if (func.userpower()) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Homepage(admin: false)));
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UserHomePage()));
+                  }
+                } else {
+                  print("error");
+                }
               },
               child: const Text("Log In")),
         ],
