@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1061734654227",
+    "project_id": "dormitory-management-96ed0",
+    "storage_bucket": "dormitory-management-96ed0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1061734654227:android:03f4169fb307e236993ae6",
+        "android_client_info": {
+          "package_name": "com.example.dormitory_management"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1061734654227-crt3ev9cu3mpa5ha04kpl0m0hl1diho3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dormitory_management",
+            "certificate_hash": "ab7cd66ed70b0398bbb89f75bbb091f1c4fe0443"
+          }
+        },
+        {
+          "client_id": "1061734654227-d304o4sdhinqrnlrggjv29k92tv58dem.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOKw3dEaY4o9ZYgSb7zIO6FmzsBWDBk-k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1061734654227-d304o4sdhinqrnlrggjv29k92tv58dem.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
