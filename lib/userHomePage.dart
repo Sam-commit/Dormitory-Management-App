@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
-import 'package:dormitory_management/homepage.dart';
+import 'package:dormitory_management/admin_homepage.dart';
 
 class UserHomePage extends StatefulWidget {
   @override
