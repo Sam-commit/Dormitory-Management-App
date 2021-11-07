@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dormitory_management/hostel_details.dart';
 
 class Homepage extends StatefulWidget {
   Homepage({required this.admin});
@@ -80,6 +81,9 @@ class _HomepageState extends State<Homepage> {
 
             return ListTile(
               title: Text(hostels[index]),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Hosteldetails(title: hostels[index],)));
+              },
             );
 
           },
