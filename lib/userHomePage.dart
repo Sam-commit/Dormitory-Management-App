@@ -31,6 +31,14 @@ class _UserHomePageState extends State<UserHomePage> {
     return Scaffold(
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _index,
+            onTap: (index) {
+                setState(() {
+                  _index = index;
+                  _pageController.animateToPage(index,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.ease);
+                });
+              },
             items: [
               const BottomNavigationBarItem(
                 icon: Icon(Icons.home),
