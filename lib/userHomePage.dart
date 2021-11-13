@@ -32,6 +32,7 @@ class _UserHomePageState extends State<UserHomePage> {
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _index,
             onTap: (index) {
+
               setState(() {
                 _index = index;
                 _pageController.animateToPage(index,
@@ -39,6 +40,7 @@ class _UserHomePageState extends State<UserHomePage> {
                     curve: Curves.ease);
               });
             },
+
             items: [
               const BottomNavigationBarItem(
                 icon: Icon(Icons.home),
