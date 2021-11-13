@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dormitory_management/hostel_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:dormitory_management/studentrecord.dart';
+import 'package:dormitory_management/student.dart';
 import 'package:dormitory_management/functions.dart';
 
 class Homepage extends StatefulWidget {
@@ -50,7 +50,7 @@ class _HomepageState extends State<Homepage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => StudentRecord(studentRecords:studentRecords)));
+                          builder: (context) => Student(studentRecords:studentRecords)));
                  }),
             ListTile(
               title: const Text("Payment"),

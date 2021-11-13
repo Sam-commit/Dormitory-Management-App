@@ -1,21 +1,18 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'functions.dart';
+import 'studentinfo.dart';
 
+class Student extends StatefulWidget {
+  Map<String, List<String>> studentRecords;
 
-class StudentRecord extends StatefulWidget {
-
-  Map<String,List<String>>studentRecords;
-
-  StudentRecord({required this.studentRecords});
+  Student({required this.studentRecords});
 
   @override
-  _StudentRecordState createState() => _StudentRecordState();
+  _StudentState createState() => _StudentState();
 }
 
-class _StudentRecordState extends State<StudentRecord> {
-
+class _StudentState extends State<Student> {
   // void getinfo()async{
   //
   //   Functions func = Functions();
@@ -41,14 +38,21 @@ class _StudentRecordState extends State<StudentRecord> {
       ),
       body: ListView.builder(
           itemCount: widget.studentRecords.length,
-          itemBuilder: (context,index){
+          itemBuilder: (context, index) {
             return ListTile(
               title: Text(widget.studentRecords[keys[index]]![0]),
               subtitle: Text(keys[index]),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => StudentInfo(
+                        studentinfo: widget.studentRecords[keys[index]]!),
+                  ),
+                );
+              },
             );
-          }
-
-      ),
+          }),
     );
   }
 }
