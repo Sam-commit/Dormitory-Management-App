@@ -59,9 +59,9 @@ class _LoginpageState extends State<Loginpage> {
           ),
           ElevatedButton(
               onPressed: () async {
-                Functions func = Functions(email, password);
+                Functions func = Functions();
 
-                if (await func.signin()) {
+                if (await func.signin(email,password)) {
                   if (await func.userpower()) {
                     Navigator.push(
                         context,

@@ -9,17 +9,17 @@ class Functions{
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  String email="";
-  String password="";
-  //bool admin = false;
+  // String email="";
+  // String password="";
+  // //bool admin = false;
+  //
+  //
+  // Functions(String email, String password){
+  //   this.email = email;
+  //   this.password = password;
+  // }
 
-
-  Functions(String email, String password){
-    this.email = email;
-    this.password = password;
-  }
-
-  Future <bool>signin() async{
+  Future <bool>signin(String email,String password) async{
 
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
@@ -63,6 +63,27 @@ class Functions{
     }
 
     return admin;
+
+  }
+
+  Future<Map<String,List<String>>> studentinfo()async{
+
+    Map<String,List<String>>studentRecords={};
+
+    CollectionReference students = firestore.collection('students');
+    await students.get().then((QuerySnapshot querySnapshot) {
+
+      for(var element in querySnapshot.docs){
+          studentRecords[element["Rollno"].toString()]=[element["Name"].toString(),element["Rollno"].toString(),element["Room"].toString(),element["Document"].toString()];
+
+      }
+
+     print(studentRecords.keys);
+
+    });
+
+    return studentRecords;
+
 
   }
 

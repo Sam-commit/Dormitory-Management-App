@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:dormitory_management/hostel_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dormitory_management/studentrecord.dart';
+import 'package:dormitory_management/functions.dart';
 
 class Homepage extends StatefulWidget {
   Homepage({required this.admin});
@@ -22,6 +24,8 @@ class _HomepageState extends State<Homepage> {
     "Girls Hostel 2"
   ];
 
+  Map<String,List<String>>studentRecords={};
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,11 +43,15 @@ class _HomepageState extends State<Homepage> {
               },
             ),
             ListTile(
-              title: const Text("Student Record"),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
+                title: const Text("Student Record"),
+                onTap: () async{
+                  Functions func = Functions();
+                  studentRecords = await func.studentinfo();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => StudentRecord(studentRecords:studentRecords)));
+                 }),
             ListTile(
               title: const Text("Payment"),
               onTap: () {
