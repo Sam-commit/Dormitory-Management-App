@@ -4,6 +4,7 @@ import 'admin_homepage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:dormitory_management/functions.dart';
 import 'userHomePage.dart';
+import 'register.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({Key? key}) : super(key: key);
@@ -58,26 +59,34 @@ class _LoginpageState extends State<Loginpage> {
             height: 40,
           ),
           ElevatedButton(
-              onPressed: () async {
-                Functions func = Functions();
+            onPressed: () async {
+              Functions func = Functions();
 
-                if (await func.signin(email,password)) {
-                  if (await func.userpower()) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Homepage(admin: false)));
-                  } else {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => UserHomePage()));
-                  }
+              if (await func.signin(email, password)) {
+                if (await func.userpower()) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Homepage(admin: false)));
                 } else {
-                  print("error");
+                  val.clear();
+                  func.profileinfo(email);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => UserHomePage()));
                 }
-              },
-              child: const Text("Log In")),
+              } else {
+                print("error");
+              }
+            },
+            child: const Text("Log In"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => RegisterScreen()));
+            },
+            child: const Text("Register"),
+          ),
         ],
       ),
     );

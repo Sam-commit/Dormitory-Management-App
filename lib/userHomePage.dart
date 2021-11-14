@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:dormitory_management/admin_homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'functions.dart';
+
+FirebaseAuth auth = FirebaseAuth.instance;
 
 class UserHomePage extends StatefulWidget {
   @override
@@ -11,6 +15,7 @@ class UserHomePage extends StatefulWidget {
 }
 
 class _UserHomePageState extends State<UserHomePage> {
+  Functions functions = Functions();
   @override
   int _index = 0;
 
@@ -27,43 +32,37 @@ class _UserHomePageState extends State<UserHomePage> {
   }
 
   Widget build(BuildContext context) {
-
+    Firebase.initializeApp();
     return Scaffold(
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: _index,
-            onTap: (index) {
-
-              setState(() {
-                _index = index;
-                _pageController.animateToPage(index,
-                    duration: Duration(milliseconds: 500),
-                    curve: Curves.ease);
-              });
-            },
-
-            items: [
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: "Home",
-              ),
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.mail),
-                label: "IDK",
-              ),
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: "Profile",
-
-              ),
-            ],
-          ),
-          body: PageView(
-            children: pages,
-            onPageChanged: onPageChanged,
-            controller: _pageController,
-          ));
-
-
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _index,
+          onTap: (index) {
+            setState(() {
+              _index = index;
+              _pageController.animateToPage(index,
+                  duration: Duration(milliseconds: 500), curve: Curves.ease);
+            });
+          },
+          items: [
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: "Home",
+            ),
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.mail),
+              label: "IDK",
+            ),
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: "Profile",
+            ),
+          ],
+        ),
+        body: PageView(
+          children: pages,
+          onPageChanged: onPageChanged,
+          controller: _pageController,
+        ));
   }
 
   void onPageChanged(int page) {
@@ -75,14 +74,36 @@ class _UserHomePageState extends State<UserHomePage> {
 
 class Profile extends StatelessWidget {
   @override
+  List<String> lead = [
+    "Name",
+    "Roll Number",
+    "Room Number",
+    "Document",
+    "Move In",
+    "Move Out",
+    "Email"
+  ];
   Widget build(BuildContext context) {
-    return
-       Scaffold(
-        body: Center(
-          child: Container(child: Text("Profile")),
-        ),
-      );
-
+    Firebase.initializeApp();
+    String email = "";
+    if (auth.currentUser != null) {
+      email = auth.currentUser!.email.toString();
+    }
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Profile"),
+      ),
+      body: Center(
+        child: ListView.builder(
+            itemCount: val.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                leading: Text(lead[index] + ": "),
+                title: Text(val[index]),
+              );
+            }),
+      ),
+    );
   }
 }
 
@@ -90,36 +111,35 @@ class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(onPressed: ()async{
-
-              await FirebaseAuth.instance.signOut();
-              Navigator.pop(context) ;
-
-            }, icon: const Icon(Icons.logout))
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.logout))
+        ],
+        title: Text("HomePage"),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                children: [
+                  Center(child: hostelCard("BH1")),
+                  Center(child: hostelCard("BH2")),
+                  Center(child: hostelCard("BH3")),
+                  Center(child: hostelCard("BH4")),
+                  Center(child: hostelCard("BH5")),
+                ],
+              ),
+            )
           ],
-          title: Text("HomePage"),
         ),
-        body: Center(
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView(
-                  children: [
-                    Center(child: hostelCard("BH1")),
-                    Center(child: hostelCard("BH2")),
-                    Center(child: hostelCard("BH3")),
-                    Center(child: hostelCard("BH4")),
-                    Center(child: hostelCard("BH5")),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      );
-
+      ),
+    );
   }
 }
 
