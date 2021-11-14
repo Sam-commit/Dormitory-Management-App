@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+List<String> val = [];
+
 class Functions {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -64,7 +66,6 @@ class Functions {
           element["Document"].toString(),
           element["Movein"].toString(),
           element["Moveout"].toString(),
-
         ];
       }
 
@@ -72,5 +73,44 @@ class Functions {
     });
 
     return studentRecords;
+  }
+
+  Future<bool> register(String email, String password) async {
+    bool val = false;
+    try {
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      val = true;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
+    return val;
+  }
+
+  Future profileinfo(String email) async {
+    CollectionReference students = firestore.collection('students');
+    await students.get().then((QuerySnapshot querySnapshot) {
+      for (var element in querySnapshot.docs) {
+        if (element["Email"] == email) {
+          val.clear();
+          val.add(element["Name"].toString());
+          val.add(element["Rollno"].toString());
+          val.add(element["Room"].toString());
+          val.add(element["Document"].toString());
+          val.add(element["Movein"].toString());
+          val.add(element["Moveout"].toString());
+          val.add(element["Email"].toString());
+          break;
+        }
+      }
+    });
   }
 }
