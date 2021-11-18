@@ -75,7 +75,15 @@ class _LoginpageState extends State<Loginpage> {
                       MaterialPageRoute(builder: (context) => UserHomePage()));
                 }
               } else {
-                print("error");
+                final snackbar = SnackBar(
+                  backgroundColor: Colors.blueGrey,
+                  behavior: SnackBarBehavior.floating,
+                  content: Text(
+                    "Incorrect User Credentials",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackbar);
               }
             },
             child: const Text("Log In"),

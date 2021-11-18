@@ -94,6 +94,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 val.add(email);
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => UserHomePage()));
+              } else {
+                final snackbar = SnackBar(
+                  backgroundColor: Colors.blueGrey,
+                  behavior: SnackBarBehavior.floating,
+                  content: Text(
+                    "Incorrect User Credentials",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackbar);
               }
             },
             child: Text("Register"),
