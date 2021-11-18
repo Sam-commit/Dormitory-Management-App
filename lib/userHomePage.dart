@@ -109,6 +109,10 @@ class Profile extends StatelessWidget {
 }
 
 class FirstScreen extends StatelessWidget {
+
+  Functions func = Functions();
+  List<Map<String,dynamic>>roominfo=[];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,12 +134,15 @@ class FirstScreen extends StatelessWidget {
               child: ListView(
                 children: [
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async{
+
+                      roominfo = await func.roominfo("bh1");
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              DormDetails(name: "BH1", ind: 0),
+                              DormDetails(name: "BH1", roominfo: roominfo,),
                         ),
                       );
                     },
@@ -145,13 +152,13 @@ class FirstScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              DormDetails(name: "BH2", ind: 1),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) =>
+                      //         DormDetails(name: "BH2", ind: 1),
+                      //   ),
+                      // );
                     },
                     child: Center(
                       child: hostelCard("BH2"),
@@ -159,13 +166,13 @@ class FirstScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              DormDetails(name: "BH3", ind: 2),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) =>
+                      //         DormDetails(name: "BH3", ind: 2),
+                      //   ),
+                      // );
                     },
                     child: Center(
                       child: hostelCard("BH3"),
@@ -173,13 +180,13 @@ class FirstScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              DormDetails(name: "BH4", ind: 3),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) =>
+                      //         DormDetails(name: "BH4", ind: 3),
+                      //   ),
+                      // );
                     },
                     child: Center(
                       child: hostelCard("BH4"),
@@ -187,13 +194,13 @@ class FirstScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              DormDetails(name: "BH5", ind: 4),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) =>
+                      //         DormDetails(name: "BH5", ind: 4),
+                      //   ),
+                      // );
                     },
                     child: Center(
                       child: hostelCard("BH5"),

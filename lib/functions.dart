@@ -75,6 +75,28 @@ class Functions {
     return studentRecords;
   }
 
+  Future roominfo(String room) async {
+
+    List<Map<String,dynamic>>rooms=[];
+
+    CollectionReference hostel = firestore.collection(room);
+    await hostel.orderBy("number").get().then((QuerySnapshot querySnapshot) {
+      for (var element in querySnapshot.docs) {
+
+        rooms.add({
+          "allocated" : element["allocated"],
+          "beds" : element["beds"],
+          "number" : element["number"],
+          "students" : element["students"],
+
+        });
+
+      }
+    });
+
+    return rooms;
+  }
+
   Future<bool> register(String email, String password) async {
     bool val = false;
     try {

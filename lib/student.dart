@@ -13,45 +13,81 @@ class Student extends StatefulWidget {
 }
 
 class _StudentState extends State<Student> {
-  // void getinfo()async{
-  //
-  //   Functions func = Functions();
-  //   studentRecords = await func.studentinfo();
-  //
-  // }
-
-  // @override
-  // void initState(){
-  //   super.initState();
-  //
-  //   getinfo();
-  //
-  // }
-
   get keys => widget.studentRecords.keys.toList();
+  List<bool> ischecked = [];
+  List<String>todelete = [];
+
+  bool checklist = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    for (var i = 0; i <= widget.studentRecords.length; i++) {
+      ischecked.add(false);
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
+    todelete.clear();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Student record"),
       ),
+      floatingActionButton: Visibility(
+        visible: checklist,
+        child: FloatingActionButton(onPressed: () {
+
+          for(int i = 0;i<ischecked.length;i++){
+            if(ischecked[i] == true){
+              todelete.add(keys[i]);
+            }
+          }
+
+          print(todelete);
+
+        },
+          child: const Icon(Icons.delete_forever),
+        ),
+      ),
       body: ListView.builder(
           itemCount: widget.studentRecords.length,
           itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(widget.studentRecords[keys[index]]![0]),
-              subtitle: Text(keys[index]),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => StudentInfo(
-                        studentinfo: widget.studentRecords[keys[index]]!),
-                  ),
-                );
-              },
-            );
+            return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => StudentInfo(
+                          studentinfo: widget.studentRecords[keys[index]]!),
+                    ),
+                  );
+                },
+                onLongPress: () {
+                  checklist = checklist ? false : true;
+
+                  for (var i = 0; i <= widget.studentRecords.length; i++) {
+                    ischecked[i] = false;
+                  }
+
+                  setState(() {});
+                },
+                child: ListTile(
+                  title: Text(widget.studentRecords[keys[index]]![0]),
+                  subtitle: Text(keys[index]),
+                  trailing: checklist
+                      ? Checkbox(
+                          onChanged: (bool? value) {
+                            setState(() {
+                              ischecked[index] = value!;
+                            });
+                          },
+                          value: ischecked[index],
+                        )
+                      : const SizedBox(),
+                ));
           }),
     );
   }

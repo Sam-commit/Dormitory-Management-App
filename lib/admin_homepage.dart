@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dormitory_management/hostel_details.dart';
+import 'package:dormitory_management/room_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dormitory_management/student.dart';
 import 'package:dormitory_management/functions.dart';
@@ -96,13 +96,13 @@ class _HomepageState extends State<Homepage> {
           return ListTile(
             title: Text(hostels[index]),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Hosteldetails(
-                            title: hostels[index],
-                            val: index,
-                          )));
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => RoomDetails(
+              //               title: hostels[index],
+              //               val: index,
+              //             )));
             },
           );
         },

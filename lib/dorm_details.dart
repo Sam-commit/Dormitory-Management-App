@@ -1,11 +1,12 @@
 import 'package:dormitory_management/functions.dart';
 import 'package:flutter/material.dart';
-import 'random_val.dart';
+import 'constants.dart';
+import 'room_details.dart';
 
 class DormDetails extends StatefulWidget {
+  List<Map<String, dynamic>> roominfo;
   String name;
-  int ind;
-  DormDetails({required this.name, required this.ind});
+  DormDetails({required this.roominfo, required this.name});
 
   @override
   _DormDetailsState createState() => _DormDetailsState();
@@ -20,24 +21,38 @@ class _DormDetailsState extends State<DormDetails> {
       ),
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
+          crossAxisCount: 4,
         ),
-        itemCount: values[widget.ind].length,
+        itemCount: widget.roominfo.length,
         itemBuilder: (BuildContext context, int index) {
           Color background;
-          if (values[widget.ind][index] == 0) {
+          int color = widget.roominfo[index]["beds"] -
+              widget.roominfo[index]["allocated"];
+
+          if (color == 0) {
             background = Colors.red;
-          } else if (values[widget.ind][index] == 1) {
+          } else if (color <= 2) {
             background = Colors.yellow;
           } else {
             background = Colors.green;
           }
-          return Container(
-            margin: EdgeInsets.all(10),
-            child: Center(
-              child: Text("${index + 1}"),
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => RoomDetails(
+                            number: index + 1,
+                            roominfo: widget.roominfo[index],
+                          )));
+            },
+            child: Container(
+              margin: EdgeInsets.all(8),
+              child: Center(
+                child: Text("${index + 1}",style: TextStyle(color: Colors.black,fontSize: 15),),
+              ),
+              color: background,
             ),
-            color: background,
           );
         },
       ),
