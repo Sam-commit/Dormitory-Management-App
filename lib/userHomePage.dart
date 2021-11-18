@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:dormitory_management/dorm_details.dart';
 import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:dormitory_management/admin_homepage.dart';
@@ -128,11 +129,76 @@ class FirstScreen extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
-                  Center(child: hostelCard("BH1")),
-                  Center(child: hostelCard("BH2")),
-                  Center(child: hostelCard("BH3")),
-                  Center(child: hostelCard("BH4")),
-                  Center(child: hostelCard("BH5")),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DormDetails(name: "BH1", ind: 0),
+                        ),
+                      );
+                    },
+                    child: Center(
+                      child: hostelCard("BH1"),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DormDetails(name: "BH2", ind: 1),
+                        ),
+                      );
+                    },
+                    child: Center(
+                      child: hostelCard("BH2"),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DormDetails(name: "BH3", ind: 2),
+                        ),
+                      );
+                    },
+                    child: Center(
+                      child: hostelCard("BH3"),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DormDetails(name: "BH4", ind: 3),
+                        ),
+                      );
+                    },
+                    child: Center(
+                      child: hostelCard("BH4"),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DormDetails(name: "BH5", ind: 4),
+                        ),
+                      );
+                    },
+                    child: Center(
+                      child: hostelCard("BH5"),
+                    ),
+                  ),
                 ],
               ),
             )
