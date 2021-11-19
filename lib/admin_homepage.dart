@@ -3,6 +3,7 @@ import 'package:dormitory_management/room_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dormitory_management/student.dart';
 import 'package:dormitory_management/functions.dart';
+import 'dormitory_view.dart';
 
 class Homepage extends StatefulWidget {
   Homepage({required this.admin});
@@ -24,7 +25,7 @@ class _HomepageState extends State<Homepage> {
     "Girls Hostel 2"
   ];
 
-  Map<String,List<String>>studentRecords={};
+  Map<String, List<String>> studentRecords = {};
 
   @override
   Widget build(BuildContext context) {
@@ -39,19 +40,25 @@ class _HomepageState extends State<Homepage> {
             ListTile(
               title: const Text("Dormitory View"),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DormView(),
+                  ),
+                );
               },
             ),
             ListTile(
                 title: const Text("Student Record"),
-                onTap: () async{
+                onTap: () async {
                   Functions func = Functions();
                   studentRecords = await func.studentinfo();
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Student(studentRecords:studentRecords)));
-                 }),
+                          builder: (context) =>
+                              Student(studentRecords: studentRecords)));
+                }),
             ListTile(
               title: const Text("Payment"),
               onTap: () {
