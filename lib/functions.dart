@@ -76,25 +76,31 @@ class Functions {
   }
 
   Future roominfo(String room) async {
-
-    List<Map<String,dynamic>>rooms=[];
+    List<Map<String, dynamic>> rooms = [];
 
     CollectionReference hostel = firestore.collection(room);
     await hostel.orderBy("number").get().then((QuerySnapshot querySnapshot) {
       for (var element in querySnapshot.docs) {
-
         rooms.add({
-          "allocated" : element["allocated"],
-          "beds" : element["beds"],
-          "number" : element["number"],
-          "students" : element["students"],
-
+          "allocated": element["allocated"],
+          "beds": element["beds"],
+          "number": element["number"],
+          "students": element["students"],
         });
-
       }
     });
 
     return rooms;
+  }
+
+  void addroom(int room, int beds, String hostelname) {
+    CollectionReference hostel = firestore.collection(hostelname);
+    hostel.add({
+      "allocated": 0,
+      "beds": beds,
+      "number": room,
+      "students": [],
+    });
   }
 
   Future<bool> register(String email, String password) async {
