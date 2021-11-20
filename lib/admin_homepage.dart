@@ -3,7 +3,7 @@ import 'package:dormitory_management/room_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dormitory_management/student.dart';
 import 'package:dormitory_management/functions.dart';
-import 'dormitory_view.dart';
+import 'add_room.dart';
 
 class Homepage extends StatefulWidget {
   Homepage({required this.admin});
@@ -15,6 +15,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  Functions functions = Functions();
   List<String> hostels = const [
     "Boys Hostel 1",
     "Boys Hostel 2",
@@ -24,6 +25,7 @@ class _HomepageState extends State<Homepage> {
     "Girls Hostel 1",
     "Girls Hostel 2"
   ];
+  List<String> titl = const ["bh1", "bh2", "bh3", "bh4", "bh5", "gh1", "gh2"];
 
   Map<String, List<String>> studentRecords = {};
 
@@ -40,12 +42,7 @@ class _HomepageState extends State<Homepage> {
             ListTile(
               title: const Text("Dormitory View"),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DormView(),
-                  ),
-                );
+                Navigator.pop(context);
               },
             ),
             ListTile(
@@ -102,14 +99,15 @@ class _HomepageState extends State<Homepage> {
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(hostels[index]),
-            onTap: () {
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => RoomDetails(
-              //               title: hostels[index],
-              //               val: index,
-              //             )));
+            onTap: () async {
+              List<Map<String, dynamic>> val =
+                  await functions.roominfo(titl[index]);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddRoom(val: val, title: titl[index]),
+                ),
+              );
             },
           );
         },
