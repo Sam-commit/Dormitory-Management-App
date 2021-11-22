@@ -66,6 +66,7 @@ class Functions {
           element["Document"].toString(),
           element["Movein"].toString(),
           element["Moveout"].toString(),
+          element["Email"].toString(),
         ];
       }
 
@@ -139,6 +140,42 @@ class Functions {
           break;
         }
       }
+    });
+  }
+
+  Future allotRoom(
+      List<String> studentinfo, String hostelname, int room) async {
+    await firestore
+        .collection('students')
+        .where('Name', isEqualTo: studentinfo[0])
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((documentSnapshot) {
+        documentSnapshot.reference.update({
+          "Name": studentinfo[0],
+          "Document": "Aadhar",
+          "Email": studentinfo[6],
+          "Movein": studentinfo[4],
+          "Moveout": studentinfo[5],
+          "Rollno": studentinfo[1],
+          "Room": "${hostelname} ${room}",
+        });
+      });
+    });
+    await firestore
+        .collection(hostelname)
+        .where('number', isEqualTo: room)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((documentSnapshot) {
+        print(documentSnapshot["students"]);
+        documentSnapshot.reference.update({
+          "allocated": documentSnapshot["allocated"] + 1,
+          "beds": documentSnapshot["beds"],
+          "number": room,
+          "students": FieldValue.arrayUnion([studentinfo[1]])
+        });
+      });
     });
   }
 }
