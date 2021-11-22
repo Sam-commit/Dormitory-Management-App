@@ -39,12 +39,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             },
           ),
           TextField(
-            decoration: InputDecoration(hintText: "Room"),
-            onChanged: (String value) {
-              room = value;
-            },
-          ),
-          TextField(
             decoration: InputDecoration(hintText: "Move In"),
             onChanged: (String value) {
               movein = value;
@@ -78,7 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 _firestore.collection("students").add({
                   "Name": name,
                   "Rollno": Rollno,
-                  "Room": room,
+                  "Room": "",
                   "Movein": movein,
                   "Moveout": moveout,
                   "Document": "Aadhar",
@@ -87,7 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 val.clear();
                 val.add(name);
                 val.add(Rollno);
-                val.add(room);
+                val.add("");
                 val.add("Aadhar");
                 val.add(movein);
                 val.add(moveout);

@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'studentinfo.dart';
+import 'allot_dormview.dart';
 
 class Student extends StatefulWidget {
   Map<String, List<String>> studentRecords;
@@ -15,7 +16,7 @@ class Student extends StatefulWidget {
 class _StudentState extends State<Student> {
   get keys => widget.studentRecords.keys.toList();
   List<bool> ischecked = [];
-  List<String>todelete = [];
+  List<String> todelete = [];
 
   bool checklist = false;
 
@@ -26,7 +27,6 @@ class _StudentState extends State<Student> {
     for (var i = 0; i <= widget.studentRecords.length; i++) {
       ischecked.add(false);
     }
-
   }
 
   @override
@@ -38,23 +38,26 @@ class _StudentState extends State<Student> {
       ),
       floatingActionButton: Visibility(
         visible: checklist,
-        child: FloatingActionButton(onPressed: () {
-
-          for(int i = 0;i<ischecked.length;i++){
-            if(ischecked[i] == true){
-              todelete.add(keys[i]);
+        child: FloatingActionButton(
+          onPressed: () {
+            for (int i = 0; i < ischecked.length; i++) {
+              if (ischecked[i] == true) {
+                todelete.add(keys[i]);
+              }
             }
-          }
 
-          print(todelete);
-
-        },
+            print(todelete);
+          },
           child: const Icon(Icons.delete_forever),
         ),
       ),
       body: ListView.builder(
           itemCount: widget.studentRecords.length,
           itemBuilder: (context, index) {
+            bool alloted = true;
+            if (widget.studentRecords[keys[index]]![2] == "") {
+              alloted = false;
+            }
             return GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -75,7 +78,27 @@ class _StudentState extends State<Student> {
                   setState(() {});
                 },
                 child: ListTile(
-                  title: Text(widget.studentRecords[keys[index]]![0]),
+                  title: alloted
+                      ? Text(widget.studentRecords[keys[index]]![0])
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(widget.studentRecords[keys[index]]![0]),
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Allot_DormView(
+                                          admin: true,
+                                          studentinfo: widget
+                                              .studentRecords[keys[index]]!),
+                                    ),
+                                  );
+                                },
+                                child: Text("Allot Room"))
+                          ],
+                        ),
                   subtitle: Text(keys[index]),
                   trailing: checklist
                       ? Checkbox(
