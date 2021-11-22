@@ -178,4 +178,46 @@ class Functions {
       });
     });
   }
+
+  Future removeRoom(List<String> studentinfo) async {
+    String hostelname =
+        studentinfo[2][0] + studentinfo[2][1] + studentinfo[2][2];
+    int room;
+    String a = "";
+    for (int i = 3; i < studentinfo[2].length; i++) {
+      a += studentinfo[2][i];
+    }
+    room = int.parse(a);
+    await firestore
+        .collection('students')
+        .where('Name', isEqualTo: studentinfo[0])
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((documentSnapshot) {
+        documentSnapshot.reference.update({
+          "Name": studentinfo[0],
+          "Document": "Aadhar",
+          "Email": studentinfo[6],
+          "Movein": studentinfo[4],
+          "Moveout": studentinfo[5],
+          "Rollno": studentinfo[1],
+          "Room": "",
+        });
+      });
+    });
+    await firestore
+        .collection(hostelname)
+        .where('number', isEqualTo: room)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((documentSnapshot) {
+        documentSnapshot.reference.update({
+          "allocated": documentSnapshot["allocated"] - 1,
+          "beds": documentSnapshot["beds"],
+          "number": room,
+          "students": FieldValue.arrayRemove([studentinfo[1]])
+        });
+      });
+    });
+  }
 }
