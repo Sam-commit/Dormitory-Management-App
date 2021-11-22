@@ -3,6 +3,9 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'studentinfo.dart';
 import 'allot_dormview.dart';
+import 'functions.dart';
+
+Functions functions = Functions();
 
 class Student extends StatefulWidget {
   Map<String, List<String>> studentRecords;
@@ -78,27 +81,36 @@ class _StudentState extends State<Student> {
                   setState(() {});
                 },
                 child: ListTile(
-                  title: alloted
-                      ? Text(widget.studentRecords[keys[index]]![0])
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(widget.studentRecords[keys[index]]![0]),
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Allot_DormView(
-                                          admin: true,
-                                          studentinfo: widget
-                                              .studentRecords[keys[index]]!),
-                                    ),
-                                  );
-                                },
-                                child: Text("Allot Room"))
-                          ],
-                        ),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(widget.studentRecords[keys[index]]![0]),
+                      TextButton(
+                        onPressed: () {
+                          if (alloted == false) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Allot_DormView(
+                                    admin: true,
+                                    studentinfo:
+                                        widget.studentRecords[keys[index]]!),
+                              ),
+                            );
+                          } else {
+                            functions.removeRoom(
+                                widget.studentRecords[keys[index]]!);
+                          }
+                        },
+                        child: alloted
+                            ? Text(
+                                "Remove Room",
+                                style: TextStyle(color: Colors.red),
+                              )
+                            : Text("Allot Room"),
+                      )
+                    ],
+                  ),
                   subtitle: Text(keys[index]),
                   trailing: checklist
                       ? Checkbox(
