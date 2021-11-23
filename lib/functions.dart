@@ -1,8 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'package:open_file/open_file.dart';
 
 List<String> val = [];
+var pdf = pw.Document();
 
 class Functions {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -219,5 +225,37 @@ class Functions {
         });
       });
     });
+  }
+
+  Future generatePDF(String rollno) async {
+    pdf = pw.Document();
+    await firestore
+        .collection('students')
+        .where('Rollno', isEqualTo: rollno)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((documentSnapshot) {
+        pdf.addPage(
+          pw.Page(
+              pageFormat: PdfPageFormat.a4,
+              build: (pw.Context context) {
+                return pw.Center(
+                    child: pw.Column(children: [
+                  pw.Text("Name: " + documentSnapshot["Name"]),
+                  pw.Text("Roll Number: " + documentSnapshot["Rollno"]),
+                  pw.Text("Room: " + documentSnapshot["Room"]),
+                  pw.Text("Email: " + documentSnapshot["Email"]),
+                  pw.Text("Document: " + documentSnapshot["Document"]),
+                  pw.Text("Move In Date: " + documentSnapshot["Movein"]),
+                  pw.Text("Move Out Date: " + documentSnapshot["Moveout"]),
+                ]));
+              }),
+        );
+      });
+    });
+    final output = await getApplicationDocumentsDirectory();
+    final file = File("${output.path}/${rollno}");
+    await file.writeAsBytes(await pdf.save());
+    OpenFile.open("${output.path}/${rollno}");
   }
 }

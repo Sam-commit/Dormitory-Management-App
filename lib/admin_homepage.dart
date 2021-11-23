@@ -4,6 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dormitory_management/student.dart';
 import 'package:dormitory_management/functions.dart';
 import 'add_room.dart';
+import 'report_retrieval.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class Homepage extends StatefulWidget {
   Homepage({required this.admin});
@@ -70,8 +73,16 @@ class _HomepageState extends State<Homepage> {
             ),
             ListTile(
               title: const Text("Report Retrieval"),
-              onTap: () {
-                Navigator.pop(context);
+              onTap: () async {
+                Functions func = Functions();
+                studentRecords = await func.studentinfo();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ReportRetrieval(studentRecords: studentRecords),
+                  ),
+                );
               },
             ),
             ListTile(
