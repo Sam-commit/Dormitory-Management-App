@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'functions.dart';
+import 'room_details.dart';
 
 class AllotRoom extends StatefulWidget {
   List<Map<String, dynamic>> val;
@@ -46,6 +47,8 @@ class _AllotRoomState extends State<AllotRoom> {
                         onPressed: () async {
                           await functions.allotRoom(widget.studentinfo,
                               widget.title, widget.val[index]["number"]);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
                           Navigator.pop(context);
                         },
                         child: Text("Allot Room"),

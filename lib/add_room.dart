@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'functions.dart';
+import 'room_details.dart';
 
 class AddRoom extends StatefulWidget {
   List<Map<String, dynamic>> val;
@@ -29,11 +30,24 @@ class _AddRoomState extends State<AddRoom> {
           if (widget.val[index]["beds"] - widget.val[index]["allocated"] > 0) {
             vari = Colors.green;
           }
-          return Container(
-            margin: EdgeInsets.all(10),
-            color: vari,
-            child: Center(
-              child: Text(widget.val[index]["number"].toString()),
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RoomDetails(
+                    number: index + 1,
+                    roominfo: widget.val[index],
+                  ),
+                ),
+              );
+            },
+            child: Container(
+              margin: EdgeInsets.all(10),
+              color: vari,
+              child: Center(
+                child: Text(widget.val[index]["number"].toString()),
+              ),
             ),
           );
         },
