@@ -100,6 +100,7 @@ class _StudentState extends State<Student> {
                           } else {
                             functions.removeRoom(
                                 widget.studentRecords[keys[index]]!);
+                            Navigator.pop(context);
                           }
                         },
                         child: alloted
