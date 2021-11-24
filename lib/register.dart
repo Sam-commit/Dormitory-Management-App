@@ -89,7 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => UserHomePage()));
               } else {
-                final snackbar = SnackBar(
+                const snackbar = SnackBar(
                   backgroundColor: Colors.blueGrey,
                   behavior: SnackBarBehavior.floating,
                   content: Text(
@@ -100,7 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ScaffoldMessenger.of(context).showSnackBar(snackbar);
               }
             },
-            child: Text("Register"),
+            child: const Text("Register"),
           )
         ],
       ),

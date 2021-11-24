@@ -156,7 +156,7 @@ class Functions {
         .where('Name', isEqualTo: studentinfo[0])
         .get()
         .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((documentSnapshot) {
+      for (var documentSnapshot in querySnapshot.docs) {
         documentSnapshot.reference.update({
           "Name": studentinfo[0],
           "Document": "Aadhar",
@@ -166,7 +166,7 @@ class Functions {
           "Rollno": studentinfo[1],
           "Room": "${hostelname} ${room}",
         });
-      });
+      }
     });
     await firestore
         .collection(hostelname)
@@ -196,10 +196,10 @@ class Functions {
     room = int.parse(a);
     await firestore
         .collection('students')
-        .where('Name', isEqualTo: studentinfo[0])
+        .where('Rollno', isEqualTo: studentinfo[1])
         .get()
         .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((documentSnapshot) {
+      for (var documentSnapshot in querySnapshot.docs) {
         documentSnapshot.reference.update({
           "Name": studentinfo[0],
           "Document": "Aadhar",
@@ -209,7 +209,7 @@ class Functions {
           "Rollno": studentinfo[1],
           "Room": "",
         });
-      });
+      }
     });
     await firestore
         .collection(hostelname)
@@ -257,5 +257,35 @@ class Functions {
     final file = File("${output.path}/${rollno}");
     await file.writeAsBytes(await pdf.save());
     OpenFile.open("${output.path}/${rollno}");
+  }
+
+  Future removestudent(Map<String, List<String>> studentRecords, Set<String> students) async {
+
+    int k=0;
+
+
+    for (int i = 0; i < students.length; i++) {
+      if (studentRecords[students.elementAt(i)]![2] != "") {
+        await removeRoom(studentRecords[students.elementAt(i)]!);
+      }
+    }
+
+    await firestore
+        .collection('students')
+        .orderBy("Rollno")
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var element in querySnapshot.docs) {
+          if(k==students.length){break;}
+        if(element["Rollno"]==students.elementAt(k)){
+
+          firestore.collection('students').doc(element.id).delete();
+          k++;
+
+        }
+
+
+      }
+    });
   }
 }

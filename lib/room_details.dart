@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dormitory_management/dormitory_details.dart';
+
 import 'constants.dart';
 
 

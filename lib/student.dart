@@ -19,7 +19,7 @@ class Student extends StatefulWidget {
 class _StudentState extends State<Student> {
   get keys => widget.studentRecords.keys.toList();
   List<bool> ischecked = [];
-  List<String> todelete = [];
+  Set<String> todelete = {};
 
   bool checklist = false;
 
@@ -42,14 +42,16 @@ class _StudentState extends State<Student> {
       floatingActionButton: Visibility(
         visible: checklist,
         child: FloatingActionButton(
-          onPressed: () {
+          onPressed: () async{
             for (int i = 0; i < ischecked.length; i++) {
               if (ischecked[i] == true) {
                 todelete.add(keys[i]);
               }
             }
 
-            print(todelete);
+            await functions.removestudent(widget.studentRecords, todelete);
+            Navigator.pop(context);
+
           },
           child: const Icon(Icons.delete_forever),
         ),
@@ -104,11 +106,11 @@ class _StudentState extends State<Student> {
                           }
                         },
                         child: alloted
-                            ? Text(
+                            ? const Text(
                                 "Remove Room",
                                 style: TextStyle(color: Colors.red),
                               )
-                            : Text("Allot Room"),
+                            : const Text("Allot Room"),
                       )
                     ],
                   ),
