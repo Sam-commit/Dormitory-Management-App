@@ -70,11 +70,12 @@ class _LoginpageState extends State<Loginpage> {
                   if (await func.signin(email, password)) {
                     val.clear();
                     await func.profileinfo(email);
-                    if (await func.userpower()) {
+                    String name = await func.userpower();
+                    if (name!="") {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Homepage(admin: false)));
+                              builder: (context) => Homepage(name:name )));
                     } else {
                       await func.userIssue(val[1]);
                       Navigator.push(

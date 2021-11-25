@@ -44,8 +44,8 @@ class Functions {
     }
   }
 
-  Future<bool> userpower() async {
-    bool admin = false;
+  Future<String> userpower() async {
+    String name ="";
 
     if (auth.currentUser != null) {
       CollectionReference users = firestore.collection('Users');
@@ -53,13 +53,13 @@ class Functions {
         for (var element in querySnapshot.docs) {
           if (element["email"].toString() ==
               auth.currentUser?.email.toString()) {
-            admin = true;
+            name = element["name"];
           }
         }
       });
     }
 
-    return admin;
+    return name;
   }
 
   Future<Map<String, List<String>>> studentinfo() async {

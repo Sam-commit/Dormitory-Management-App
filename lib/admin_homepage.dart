@@ -12,9 +12,9 @@ import 'admin_payment.dart';
 import 'userHomePage.dart';
 
 class Homepage extends StatefulWidget {
-  Homepage({required this.admin});
+  Homepage({required this.name});
 
-  final bool admin;
+  String name;
 
   @override
   _HomepageState createState() => _HomepageState();
@@ -41,9 +41,9 @@ class _HomepageState extends State<Homepage> {
       drawer: Drawer(
         child: ListView(
           children: [
-            const DrawerHeader(
-              child: Text("Admin name"),
-              decoration: BoxDecoration(color: Colors.blue),
+             DrawerHeader(
+              child: Text(widget.name),
+              decoration: BoxDecoration(color: Color(0xFF3FC979)),
             ),
             ListTile(
               title: const Text("Dormitory View"),

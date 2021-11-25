@@ -43,8 +43,11 @@ class _AddRoomState extends State<AddRoom> {
               );
             },
             child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: vari.withOpacity(0.6),
+              ),
               margin: EdgeInsets.all(10),
-              color: vari,
               child: Center(
                 child: Text(widget.val[index]["number"].toString()),
               ),
@@ -54,6 +57,7 @@ class _AddRoomState extends State<AddRoom> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
+        backgroundColor: Color(0xFF3FC979),
         onPressed: () {
           showDialog(
             context: context,

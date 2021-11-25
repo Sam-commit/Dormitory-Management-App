@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light().copyWith(
         appBarTheme: AppBarTheme(color: Color(0xFF3FC979)),
         scaffoldBackgroundColor: Color(0xFFE5E5E5),
+        canvasColor: Color(0xFFE5E5E5)
       ),
     );
   }
