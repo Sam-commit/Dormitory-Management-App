@@ -26,9 +26,16 @@ class _AddRoomState extends State<AddRoom> {
         ),
         itemCount: widget.val.length,
         itemBuilder: (BuildContext context, int index) {
-          Color vari = Colors.red;
-          if (widget.val[index]["beds"] - widget.val[index]["allocated"] > 0) {
-            vari = Colors.green;
+          Color background;
+          int color = widget.val[index]["beds"] -
+              widget.val[index]["allocated"];
+
+          if (color == 0) {
+            background = Colors.red;
+          } else if (color <= 2) {
+            background = Colors.yellowAccent;
+          } else {
+            background = Colors.green;
           }
           return GestureDetector(
             onTap: () {
@@ -45,7 +52,7 @@ class _AddRoomState extends State<AddRoom> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: vari.withOpacity(0.6),
+                color: background.withOpacity(0.6),
               ),
               margin: EdgeInsets.all(10),
               child: Center(

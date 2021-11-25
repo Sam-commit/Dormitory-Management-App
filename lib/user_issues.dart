@@ -77,7 +77,7 @@ Widget issuecard(String issue, bool status, int number) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start  ,
           children: [
-            Text("Issue no. : " + number.toString()),
+            Text("Issue no. : " + (number+1).toString()),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
