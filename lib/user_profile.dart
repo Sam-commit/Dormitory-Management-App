@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'functions.dart';
 
@@ -39,10 +40,24 @@ class Profile extends StatelessWidget {
                   itemCount: val.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 0,horizontal: 20),
-                      child: ListTile(
-                        leading: Text(lead[index] + ": "),
-                        title: Text(val[index]),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            lead[index] + ": ",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              val[index],
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   }),

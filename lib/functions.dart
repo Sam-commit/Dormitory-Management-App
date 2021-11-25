@@ -297,7 +297,6 @@ class Functions {
   }
 
   Future<List<List<dynamic>>> adminIssues() async {
-    List<dynamic> value = [];
     List<List<dynamic>> ans = [];
     int index = 0;
     await firestore

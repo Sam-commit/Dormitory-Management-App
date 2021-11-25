@@ -41,6 +41,7 @@ class _UserHomePageState extends State<UserHomePage> {
     Firebase.initializeApp();
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor: Color(0xFF3FC979),
           type: BottomNavigationBarType.fixed,
           currentIndex: _index,
           onTap: (index) {
@@ -105,15 +106,21 @@ class FirstScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
+
             Expanded(
+              flex: 1,
+              child: ClipRRect(
+                child: Image.asset('assets/images/iiita.jpg',
+                ),
+                borderRadius: BorderRadius.circular(20),
+
+              ),
+            ),
+            Expanded(
+              flex: 2,
               child: ListView(
                 children: [
-                  ClipRRect(
-                    child: Image.asset('assets/images/iiita.jpg',
-                    ),
-                    borderRadius: BorderRadius.circular(20),
 
-                  ),
                   GestureDetector(
                     onTap: () async {
                       roominfo = await func.roominfo("bh1");
@@ -129,7 +136,7 @@ class FirstScreen extends StatelessWidget {
                       );
                     },
                     child: Center(
-                      child: hostelCard("BH1"),
+                      child: hostelCard("Boys Hostel 1"),
                     ),
                   ),
                   GestureDetector(
@@ -147,7 +154,7 @@ class FirstScreen extends StatelessWidget {
                       );
                     },
                     child: Center(
-                      child: hostelCard("BH2"),
+                      child: hostelCard("Boys Hostel 2"),
                     ),
                   ),
                   GestureDetector(
@@ -165,7 +172,7 @@ class FirstScreen extends StatelessWidget {
                       );
                     },
                     child: Center(
-                      child: hostelCard("BH3"),
+                      child: hostelCard("Boys Hostel 3"),
                     ),
                   ),
                   GestureDetector(
@@ -183,7 +190,7 @@ class FirstScreen extends StatelessWidget {
                       );
                     },
                     child: Center(
-                      child: hostelCard("BH4"),
+                      child: hostelCard("Boys Hostel 4"),
                     ),
                   ),
                   GestureDetector(
@@ -201,7 +208,7 @@ class FirstScreen extends StatelessWidget {
                       );
                     },
                     child: Center(
-                      child: hostelCard("BH5"),
+                      child: hostelCard("Boys Hostel 5"),
                     ),
                   ),
                   GestureDetector(
@@ -219,7 +226,7 @@ class FirstScreen extends StatelessWidget {
                       );
                     },
                     child: Center(
-                      child: hostelCard("GH1"),
+                      child: hostelCard("Girls Hostel 1"),
                     ),
                   ),
                   GestureDetector(
@@ -237,7 +244,7 @@ class FirstScreen extends StatelessWidget {
                       );
                     },
                     child: Center(
-                      child: hostelCard("GH2"),
+                      child: hostelCard("Girls Hostel 2"),
                     ),
                   ),
                 ],
@@ -252,12 +259,12 @@ class FirstScreen extends StatelessWidget {
 
 Widget hostelCard(String title) {
   return Container(
-    height: 42,
+    height: 50,
     width: 350,
-    margin: EdgeInsets.symmetric(vertical: 15),
+    margin: EdgeInsets.symmetric(vertical: 11),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(30),
-      color: Colors.blue.withOpacity(0.4),
+      color: Color(0xFF3FC979).withOpacity(0.25),
     ),
     child: Center(child: Text(title)),
   );

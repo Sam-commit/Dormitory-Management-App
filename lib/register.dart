@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'userHomePage.dart';
 import 'loginpage.dart';
+import 'constants.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -24,93 +25,123 @@ class _RegisterScreenState extends State<RegisterScreen> {
       appBar: AppBar(
         title: Text("Register"),
       ),
-      body: Column(
-        children: [
-          TextField(
-            decoration: InputDecoration(hintText: "Name"),
-            onChanged: (String value) {
-              name = value;
-            },
-          ),
-          TextField(
-            decoration: InputDecoration(hintText: "Roll Number"),
-            onChanged: (String value) {
-              Rollno = value;
-            },
-          ),
-          TextField(
-            decoration: InputDecoration(hintText: "Move In"),
-            onChanged: (String value) {
-              movein = value;
-            },
-          ),
-          TextField(
-            decoration: InputDecoration(hintText: "Move Out"),
-            onChanged: (String value) {
-              moveout = value;
-            },
-          ),
-          TextField(
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(hintText: "Email"),
-            onChanged: (String value) {
-              email = value;
-            },
-          ),
-          TextField(
-            keyboardType: TextInputType.visiblePassword,
-            obscureText: true,
-            decoration: InputDecoration(hintText: "Password"),
-            onChanged: (String value) {
-              pass = value;
-            },
-          ),
-          TextButton(
-            onPressed: () async {
-              bool val1 = await functions.register(email, pass);
-              if (val1) {
-                _firestore.collection("students").add({
-                  "Name": name,
-                  "Rollno": Rollno,
-                  "Room": "",
-                  "Movein": movein,
-                  "Moveout": moveout,
-                  "Document": "Aadhar",
-                  "Email": email,
-                  "hostelfee": false,
-                  "otherfee": false,
-                });
-                val.clear();
-                val.add(name);
-                val.add(Rollno);
-                val.add("");
-                val.add("Aadhar");
-                val.add(movein);
-                val.add(moveout);
-                val.add(email);
-                func_issues.clear();
-                issues_resolved.clear();
-                payment.clear();
-                payment.add(false);
-                payment.add(false);
-                await functions.userIssue(val[1]);
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => UserHomePage()));
-              } else {
-                const snackbar = SnackBar(
-                  backgroundColor: Colors.blueGrey,
-                  behavior: SnackBarBehavior.floating,
-                  content: Text(
-                    "Incorrect User Credentials",
-                    style: TextStyle(color: Colors.red),
-                  ),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackbar);
-              }
-            },
-            child: const Text("Register"),
-          )
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              child: TextField(
+                decoration: ktextfield.copyWith(hintText: "Name"),
+                onChanged: (String value) {
+                  name = value;
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              child: TextField(
+                decoration: ktextfield.copyWith(hintText: "Roll Number"),
+                onChanged: (String value) {
+                  Rollno = value;
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              child: TextField(
+                decoration: ktextfield.copyWith(hintText: "Move In"),
+                onChanged: (String value) {
+                  movein = value;
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              child: TextField(
+                decoration: ktextfield.copyWith(hintText: "Move Out"),
+                onChanged: (String value) {
+                  moveout = value;
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              child: TextField(
+                keyboardType: TextInputType.emailAddress,
+                decoration: ktextfield.copyWith(hintText: "Email"),
+                onChanged: (String value) {
+                  email = value;
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              child: TextField(
+                keyboardType: TextInputType.visiblePassword,
+                obscureText: true,
+                decoration: ktextfield.copyWith(hintText: "Password"),
+                onChanged: (String value) {
+                  pass = value;
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Color(0xFF3FC979),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    minimumSize: Size(350,42)
+                ),
+                onPressed: () async {
+                  bool val1 = await functions.register(email, pass);
+                  if (val1) {
+                    _firestore.collection("students").add({
+                      "Name": name,
+                      "Rollno": Rollno,
+                      "Room": "",
+                      "Movein": movein,
+                      "Moveout": moveout,
+                      "Document": "Aadhar",
+                      "Email": email,
+                      "hostelfee": false,
+                      "otherfee": false,
+                    });
+                    val.clear();
+                    val.add(name);
+                    val.add(Rollno);
+                    val.add("");
+                    val.add("Aadhar");
+                    val.add(movein);
+                    val.add(moveout);
+                    val.add(email);
+                    func_issues.clear();
+                    issues_resolved.clear();
+                    payment.clear();
+                    payment.add(false);
+                    payment.add(false);
+                    await functions.userIssue(val[1]);
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => UserHomePage()));
+                  } else {
+                    const snackbar = SnackBar(
+                      backgroundColor: Colors.blueGrey,
+                      behavior: SnackBarBehavior.floating,
+                      content: Text(
+                        "Incorrect User Credentials",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                  }
+                },
+                child: const Text("Register"),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

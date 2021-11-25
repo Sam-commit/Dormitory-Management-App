@@ -70,6 +70,7 @@ class _StudentInfoState extends State<StudentInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFF3FC979),
         onPressed: (){
           _showMyDialog();
         },
@@ -80,28 +81,10 @@ class _StudentInfoState extends State<StudentInfo> {
       appBar: AppBar(title: const Text("Student Info"),),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Name : " + widget.studentinfo[0],
-              style: TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 20,),
-            Text("Roll No. : " + widget.studentinfo[1],
-              style: TextStyle(fontSize: 20),),
-            const SizedBox(height: 20,),
-            Text("Room Alloted : " + (widget.studentinfo[2]=="" ? "No room Alloted" : widget.studentinfo[2]),
-              style: TextStyle(fontSize: 20),),
-            const SizedBox(height: 20,),
-            Text("Document Submitted : " + widget.studentinfo[3],
-              style: TextStyle(fontSize: 20),),
-            const SizedBox(height: 20,),
-            Text("Move In Date : " + widget.studentinfo[4],
-              style: TextStyle(fontSize: 20),),
-            const SizedBox(height: 20,),
-            Text("Move Out Date : " + widget.studentinfo[5],
-              style: TextStyle(fontSize: 20),),
-          ],
+        child: Stack(
+
+
+
         ),
       ),
     );
