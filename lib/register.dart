@@ -76,7 +76,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   "Movein": movein,
                   "Moveout": moveout,
                   "Document": "Aadhar",
-                  "Email": email
+                  "Email": email,
+                  "hostelfee": false,
+                  "otherfee": false,
                 });
                 val.clear();
                 val.add(name);
@@ -86,6 +88,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 val.add(movein);
                 val.add(moveout);
                 val.add(email);
+                func_issues.clear();
+                issues_resolved.clear();
+                payment.clear();
+                payment.add(false);
+                payment.add(false);
+                await functions.userIssue(val[1]);
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => UserHomePage()));
               } else {

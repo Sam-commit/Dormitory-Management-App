@@ -7,6 +7,9 @@ import 'add_room.dart';
 import 'report_retrieval.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'admin_issues.dart';
+import 'admin_payment.dart';
+import 'userHomePage.dart';
 
 class Homepage extends StatefulWidget {
   Homepage({required this.admin});
@@ -61,14 +64,30 @@ class _HomepageState extends State<Homepage> {
                 }),
             ListTile(
               title: const Text("Payment"),
-              onTap: () {
-                Navigator.pop(context);
+              onTap: () async {
+                List<List<dynamic>> values = await functions.adminPaymentinfo();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AdminPaymentPage(
+                      values: values,
+                    ),
+                  ),
+                );
               },
             ),
             ListTile(
-              title: const Text("Health/Electricity"),
-              onTap: () {
-                Navigator.pop(context);
+              title: const Text("Issues"),
+              onTap: () async {
+                List<List<dynamic>> values = await functions.adminIssues();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AdminIssuePage(
+                      values: values,
+                    ),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -88,7 +107,12 @@ class _HomepageState extends State<Homepage> {
             ListTile(
               title: const Text("Profile"),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Profile(),
+                  ),
+                );
               },
             )
           ],
