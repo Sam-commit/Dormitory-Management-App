@@ -38,115 +38,128 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: ListView(
-          children: [
-             DrawerHeader(
-              child: Text(widget.name),
-              decoration: BoxDecoration(color: Color(0xFF3FC979)),
-            ),
-            ListTile(
-              title: const Text("Dormitory View"),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-                title: const Text("Student Record"),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(
+                child: Text(widget.name),
+                decoration: BoxDecoration(color: Color(0xFF3FC979)),
+              ),
+              ListTile(
+                title: const Text("Dormitory View"),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                  title: const Text("Student Record"),
+                  onTap: () async {
+                    Functions func = Functions();
+                    studentRecords = await func.studentinfo();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                Student(studentRecords: studentRecords)));
+                  }),
+              ListTile(
+                title: const Text("Payment"),
+                onTap: () async {
+                  List<List<dynamic>> values =
+                      await functions.adminPaymentinfo();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AdminPaymentPage(
+                        values: values,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text("Issues"),
+                onTap: () async {
+                  List<List<dynamic>> values = await functions.adminIssues();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AdminIssuePage(
+                        values: values,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text("Report Retrieval"),
                 onTap: () async {
                   Functions func = Functions();
                   studentRecords = await func.studentinfo();
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              Student(studentRecords: studentRecords)));
-                }),
-            ListTile(
-              title: const Text("Payment"),
-              onTap: () async {
-                List<List<dynamic>> values = await functions.adminPaymentinfo();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AdminPaymentPage(
-                      values: values,
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ReportRetrieval(studentRecords: studentRecords),
                     ),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              title: const Text("Issues"),
-              onTap: () async {
-                List<List<dynamic>> values = await functions.adminIssues();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AdminIssuePage(
-                      values: values,
-                    ),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              title: const Text("Report Retrieval"),
-              onTap: () async {
-                Functions func = Functions();
-                studentRecords = await func.studentinfo();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ReportRetrieval(studentRecords: studentRecords),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              title: const Text("Profile"),
-              onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => Profile(),
-                //   ),
-                // );
-              },
-            )
-          ],
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text("Profile"),
+                onTap: () {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => Profile(),
+                  //   ),
+                  // );
+                },
+              )
+            ],
+          ),
         ),
-      ),
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.logout))
-        ],
-        title: const Text("Home Page"),
-      ),
-      body: ListView.builder(
-        itemCount: hostels.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(hostels[index]),
-            onTap: () async {
-              List<Map<String, dynamic>> val =
-                  await functions.roominfo(titl[index]);
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AddRoom(val: val, title: titl[index]),
-                ),
-              );
-            },
-          );
-        },
-      ),
-    );
+        appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.logout))
+          ],
+          title: const Text("Home Page"),
+        ),
+        body: Column(
+          children: [
+            ClipRRect(
+              child: Image.asset(
+                'assets/images/iiita.jpg',
+              ),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            Flexible(
+              child: ListView.builder(
+                itemCount: hostels.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(hostels[index]),
+                    onTap: () async {
+                      List<Map<String, dynamic>> val =
+                          await functions.roominfo(titl[index]);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              AddRoom(val: val, title: titl[index]),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ));
   }
 }
