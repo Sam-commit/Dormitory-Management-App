@@ -42,7 +42,7 @@ class _StudentState extends State<Student> {
       floatingActionButton: Visibility(
         visible: checklist,
         child: FloatingActionButton(
-          onPressed: () async{
+          onPressed: () async {
             for (int i = 0; i < ischecked.length; i++) {
               if (ischecked[i] == true) {
                 todelete.add(keys[i]);
@@ -51,7 +51,6 @@ class _StudentState extends State<Student> {
 
             await functions.removestudent(widget.studentRecords, todelete);
             Navigator.pop(context);
-
           },
           child: const Icon(Icons.delete_forever),
         ),
@@ -82,49 +81,58 @@ class _StudentState extends State<Student> {
 
                   setState(() {});
                 },
-                child: ListTile(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(widget.studentRecords[keys[index]]![0]),
-                      TextButton(
-                        onPressed: () {
-                          if (alloted == false) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Allot_DormView(
-                                    admin: true,
-                                    studentinfo:
-                                        widget.studentRecords[keys[index]]!),
-                              ),
-                            );
-                          } else {
-                            functions.removeRoom(
-                                widget.studentRecords[keys[index]]!);
-                            Navigator.pop(context);
-                          }
-                        },
-                        child: alloted
-                            ? const Text(
-                                "Remove Room",
-                                style: TextStyle(color: Colors.red),
-                              )
-                            : const Text("Allot Room"),
-                      )
-                    ],
+                child: Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    child: ListTile(
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(widget.studentRecords[keys[index]]![0]),
+                          TextButton(
+                            onPressed: () {
+                              if (alloted == false) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Allot_DormView(
+                                        admin: true,
+                                        studentinfo: widget
+                                            .studentRecords[keys[index]]!),
+                                  ),
+                                );
+                              } else {
+                                functions.removeRoom(
+                                    widget.studentRecords[keys[index]]!);
+                                Navigator.pop(context);
+                              }
+                            },
+                            child: alloted
+                                ? const Text(
+                                    "Remove Room",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                : const Text("Allot Room"),
+                          )
+                        ],
+                      ),
+                      subtitle: Text(keys[index]),
+                      trailing: checklist
+                          ? Checkbox(
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  ischecked[index] = value!;
+                                });
+                              },
+                              value: ischecked[index],
+                            )
+                          : const SizedBox(),
+                    ),
                   ),
-                  subtitle: Text(keys[index]),
-                  trailing: checklist
-                      ? Checkbox(
-                          onChanged: (bool? value) {
-                            setState(() {
-                              ischecked[index] = value!;
-                            });
-                          },
-                          value: ischecked[index],
-                        )
-                      : const SizedBox(),
                 ));
           }),
     );
