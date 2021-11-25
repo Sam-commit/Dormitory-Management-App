@@ -7,6 +7,8 @@ import 'package:dormitory_management/admin_homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'functions.dart';
+import 'user_issues.dart';
+import 'user_payment.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -17,12 +19,14 @@ class UserHomePage extends StatefulWidget {
 
 class _UserHomePageState extends State<UserHomePage> {
   Functions functions = Functions();
+  List<String> issue = [];
   @override
   int _index = 0;
 
   List<Widget> pages = [
     FirstScreen(),
-    Homepage(admin: false),
+    UserIssuePage(),
+    UserPaymentPage(),
     Profile(),
   ];
   PageController _pageController = PageController();
@@ -36,6 +40,7 @@ class _UserHomePageState extends State<UserHomePage> {
     Firebase.initializeApp();
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           currentIndex: _index,
           onTap: (index) {
             setState(() {
@@ -50,8 +55,12 @@ class _UserHomePageState extends State<UserHomePage> {
               label: "Home",
             ),
             const BottomNavigationBarItem(
-              icon: Icon(Icons.mail),
-              label: "IDK",
+              icon: Icon(Icons.error),
+              label: "Issues",
+            ),
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.payment),
+              label: "Payment",
             ),
             const BottomNavigationBarItem(
               icon: Icon(Icons.person),
@@ -109,9 +118,8 @@ class Profile extends StatelessWidget {
 }
 
 class FirstScreen extends StatelessWidget {
-
   Functions func = Functions();
-  List<Map<String,dynamic>>roominfo=[];
+  List<Map<String, dynamic>> roominfo = [];
 
   @override
   Widget build(BuildContext context) {
@@ -134,15 +142,16 @@ class FirstScreen extends StatelessWidget {
               child: ListView(
                 children: [
                   GestureDetector(
-                    onTap: () async{
-
+                    onTap: () async {
                       roominfo = await func.roominfo("bh1");
 
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              DormDetails(name: "BH1", roominfo: roominfo,),
+                          builder: (context) => DormDetails(
+                            name: "BH1",
+                            roominfo: roominfo,
+                          ),
                         ),
                       );
                     },
@@ -151,59 +160,111 @@ class FirstScreen extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) =>
-                      //         DormDetails(name: "BH2", ind: 1),
-                      //   ),
-                      // );
+                    onTap: () async {
+                      roominfo = await func.roominfo("bh2");
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DormDetails(
+                            name: "BH2",
+                            roominfo: roominfo,
+                          ),
+                        ),
+                      );
                     },
                     child: Center(
                       child: hostelCard("BH2"),
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) =>
-                      //         DormDetails(name: "BH3", ind: 2),
-                      //   ),
-                      // );
+                    onTap: () async {
+                      roominfo = await func.roominfo("bh3");
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DormDetails(
+                            name: "BH3",
+                            roominfo: roominfo,
+                          ),
+                        ),
+                      );
                     },
                     child: Center(
                       child: hostelCard("BH3"),
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) =>
-                      //         DormDetails(name: "BH4", ind: 3),
-                      //   ),
-                      // );
+                    onTap: () async {
+                      roominfo = await func.roominfo("bh4");
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DormDetails(
+                            name: "BH4",
+                            roominfo: roominfo,
+                          ),
+                        ),
+                      );
                     },
                     child: Center(
                       child: hostelCard("BH4"),
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) =>
-                      //         DormDetails(name: "BH5", ind: 4),
-                      //   ),
-                      // );
+                    onTap: () async {
+                      roominfo = await func.roominfo("bh5");
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DormDetails(
+                            name: "BH5",
+                            roominfo: roominfo,
+                          ),
+                        ),
+                      );
                     },
                     child: Center(
                       child: hostelCard("BH5"),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      roominfo = await func.roominfo("gh1");
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DormDetails(
+                            name: "GH1",
+                            roominfo: roominfo,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Center(
+                      child: hostelCard("GH1"),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      roominfo = await func.roominfo("gh2");
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DormDetails(
+                            name: "GH2",
+                            roominfo: roominfo,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Center(
+                      child: hostelCard("GH2"),
                     ),
                   ),
                 ],

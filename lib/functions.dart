@@ -9,6 +9,9 @@ import 'package:open_file/open_file.dart';
 
 List<String> val = [];
 var pdf = pw.Document();
+List<String> func_issues = [];
+List<bool> issues_resolved = [];
+List<bool> payment = [];
 
 class Functions {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -143,6 +146,9 @@ class Functions {
           val.add(element["Movein"].toString());
           val.add(element["Moveout"].toString());
           val.add(element["Email"].toString());
+          payment.clear();
+          payment.add(element["hostelfee"]);
+          payment.add(element["otherfee"]);
           break;
         }
       }
@@ -235,6 +241,8 @@ class Functions {
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((documentSnapshot) {
+        String hostelfee = documentSnapshot["hostelfee"] ? "Paid" : "Not Paid";
+        String otherfee = documentSnapshot["otherfee"] ? "Paid" : "Not Paid";
         pdf.addPage(
           pw.Page(
               pageFormat: PdfPageFormat.a4,
@@ -248,6 +256,8 @@ class Functions {
                   pw.Text("Document: " + documentSnapshot["Document"]),
                   pw.Text("Move In Date: " + documentSnapshot["Movein"]),
                   pw.Text("Move Out Date: " + documentSnapshot["Moveout"]),
+                  pw.Text("Hostel Fee Status: " + hostelfee),
+                  pw.Text("Other Fee Status: " + otherfee),
                 ]));
               }),
         );
@@ -259,10 +269,9 @@ class Functions {
     OpenFile.open("${output.path}/${rollno}");
   }
 
-  Future removestudent(Map<String, List<String>> studentRecords, Set<String> students) async {
-
-    int k=0;
-
+  Future removestudent(
+      Map<String, List<String>> studentRecords, Set<String> students) async {
+    int k = 0;
 
     for (int i = 0; i < students.length; i++) {
       if (studentRecords[students.elementAt(i)]![2] != "") {
@@ -276,16 +285,99 @@ class Functions {
         .get()
         .then((QuerySnapshot querySnapshot) {
       for (var element in querySnapshot.docs) {
-          if(k==students.length){break;}
-        if(element["Rollno"]==students.elementAt(k)){
-
+        if (k == students.length) {
+          break;
+        }
+        if (element["Rollno"] == students.elementAt(k)) {
           firestore.collection('students').doc(element.id).delete();
           k++;
-
         }
-
-
       }
     });
+  }
+
+  Future<List<List<dynamic>>> adminIssues() async {
+    List<dynamic> value = [];
+    List<List<dynamic>> ans = [];
+    int index = 0;
+    await firestore
+        .collection('issues')
+        .where('resolved', isEqualTo: false)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((documentSnapshot) {
+        ans.add([]);
+        ans[index].add(documentSnapshot["issue"]);
+        ans[index].add(documentSnapshot["name"]);
+        ans[index].add(documentSnapshot["resolved"]);
+        ans[index].add(documentSnapshot["rollno"]);
+        index++;
+      });
+    });
+    print(ans);
+    return ans;
+  }
+
+  Future markResolved(String rollno, String issue) async {
+    await firestore
+        .collection('issues')
+        .where('rollno', isEqualTo: rollno)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((documentSnapshot) {
+        if (documentSnapshot["issue"] == issue) {
+          documentSnapshot.reference.update({
+            "issue": issue,
+            "name": documentSnapshot["name"],
+            "rollno": rollno,
+            "resolved": true,
+          });
+        }
+      });
+    });
+  }
+
+  Future userIssue(String rollno) async {
+    func_issues.clear();
+    issues_resolved.clear();
+    await firestore
+        .collection('issues')
+        .where('rollno', isEqualTo: rollno)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((documentSnapshot) {
+        func_issues.add(documentSnapshot["issue"]);
+        issues_resolved.add(documentSnapshot["resolved"]);
+      });
+    });
+  }
+
+  Future addIssue(String issue) async {
+    CollectionReference issues = firestore.collection("issues");
+    issues.add({
+      "issue": issue,
+      "name": val[0],
+      "rollno": val[1],
+      "resolved": false,
+    });
+    func_issues.add(issue);
+    issues_resolved.add(false);
+  }
+
+  Future<List<List<dynamic>>> adminPaymentinfo() async {
+    CollectionReference students = firestore.collection('students');
+    List<List<dynamic>> ans = [];
+    int index = 0;
+    await students.get().then((QuerySnapshot querySnapshot) {
+      for (var element in querySnapshot.docs) {
+        ans.add([]);
+        ans[index].add(element["Name"]);
+        ans[index].add(element["Rollno"]);
+        ans[index].add(element["hostelfee"]);
+        ans[index].add(element["otherfee"]);
+        index++;
+      }
+    });
+    return ans;
   }
 }

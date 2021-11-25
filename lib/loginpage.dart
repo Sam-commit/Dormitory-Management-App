@@ -63,16 +63,21 @@ class _LoginpageState extends State<Loginpage> {
               Functions func = Functions();
 
               if (await func.signin(email, password)) {
+                val.clear();
+                await func.profileinfo(email);
                 if (await func.userpower()) {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => Homepage(admin: false)));
                 } else {
-                  val.clear();
-                  func.profileinfo(email);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => UserHomePage()));
+                  await func.userIssue(val[1]);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UserHomePage(),
+                    ),
+                  );
                 }
               } else {
                 final snackbar = SnackBar(
