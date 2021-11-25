@@ -45,7 +45,7 @@ class Functions {
   }
 
   Future<String> userpower() async {
-    String name ="";
+    String name = "";
 
     if (auth.currentUser != null) {
       CollectionReference users = firestore.collection('Users');
