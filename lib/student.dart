@@ -85,6 +85,7 @@ class _StudentState extends State<Student> {
                 child: ListTile(
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(widget.studentRecords[keys[index]]![0]),
                       TextButton(
