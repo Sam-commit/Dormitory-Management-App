@@ -25,7 +25,7 @@ class _UserPaymentPageState extends State<UserPaymentPage> {
               padding: const EdgeInsets.all(20.0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.3),
+                  color: Color(0xFF3FC979).withOpacity(0.25),
                   borderRadius: BorderRadius.circular(20)
                 ),
                 child: Padding(
@@ -60,7 +60,7 @@ class _UserPaymentPageState extends State<UserPaymentPage> {
               padding: const EdgeInsets.all(20.0),
               child: Container(
                 decoration: BoxDecoration(
-                    color: Colors.blue.withOpacity(0.3),
+                    color: Color(0xFF3FC979).withOpacity(0.25),
                     borderRadius: BorderRadius.circular(20)
                 ),
                 child: Padding(

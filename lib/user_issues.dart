@@ -69,7 +69,7 @@ Widget issuecard(String issue, bool status, int number) {
     padding: const EdgeInsets.all(8.0),
     child: Container(
       decoration: BoxDecoration(
-        color: Colors.blue.withOpacity(0.3) ,
+        color: Color(0xFF3FC979).withOpacity(0.25) ,
         borderRadius: BorderRadius.circular(20)
       ),
       child: Padding(

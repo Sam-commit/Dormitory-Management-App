@@ -10,6 +10,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'admin_issues.dart';
 import 'admin_payment.dart';
 import 'userHomePage.dart';
+import 'user_profile.dart';
 
 class Homepage extends StatefulWidget {
   Homepage({required this.name});
@@ -108,12 +109,12 @@ class _HomepageState extends State<Homepage> {
               ListTile(
                 title: const Text("Profile"),
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => Profile(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Profile(),
+                    ),
+                  );
                 },
               )
             ],
@@ -132,29 +133,41 @@ class _HomepageState extends State<Homepage> {
         ),
         body: Column(
           children: [
-            ClipRRect(
-              child: Image.asset(
-                'assets/images/iiita.jpg',
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10,20,10,10),
+              child: ClipRRect(
+                child: Image.asset(
+                  'assets/images/iiita.jpg',
+                ),
+                borderRadius: BorderRadius.circular(20),
               ),
-              borderRadius: BorderRadius.circular(20),
             ),
             Flexible(
               child: ListView.builder(
                 itemCount: hostels.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(hostels[index]),
-                    onTap: () async {
-                      List<Map<String, dynamic>> val =
-                          await functions.roominfo(titl[index]);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              AddRoom(val: val, title: titl[index]),
-                        ),
-                      );
-                    },
+                  return Container(
+                    height: 50,
+                    width: 350,
+                    margin: EdgeInsets.symmetric(vertical: 11,horizontal: 20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Color(0xFF3FC979).withOpacity(0.25),
+                    ),
+                    child: ListTile(
+                      title: Center(child: Text(hostels[index])),
+                      onTap: () async {
+                        List<Map<String, dynamic>> val =
+                            await functions.roominfo(titl[index]);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                AddRoom(val: val, title: titl[index]),
+                          ),
+                        );
+                      },
+                    ),
                   );
                 },
               ),

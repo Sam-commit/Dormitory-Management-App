@@ -41,6 +41,7 @@ class _StudentState extends State<Student> {
       floatingActionButton: Visibility(
         visible: checklist,
         child: FloatingActionButton(
+          backgroundColor: Color(0xFF3FC979),
           onPressed: () async {
             for (int i = 0; i < ischecked.length; i++) {
               if (ischecked[i] == true) {
@@ -80,18 +81,33 @@ class _StudentState extends State<Student> {
 
                   setState(() {});
                 },
+
+
                 child: Padding(
                   padding: const EdgeInsets.all(13.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.grey,
+                      color: Color(0xFF3FC979).withOpacity(0.25),
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
                     child: ListTile(
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(widget.studentRecords[keys[index]]![0]),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(widget.studentRecords[keys[index]]![0]),
+                              Text(keys[index],
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black54
+
+                                ),
+                              )
+                            ],
+                          ),
                           TextButton(
                             onPressed: () {
                               if (alloted == false) {
@@ -119,7 +135,6 @@ class _StudentState extends State<Student> {
                           )
                         ],
                       ),
-                      subtitle: Text(keys[index]),
                       trailing: checklist
                           ? Checkbox(
                               onChanged: (bool? value) {
