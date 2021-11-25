@@ -18,39 +18,78 @@ class _UserPaymentPageState extends State<UserPaymentPage> {
         title: Text("Payment Info"),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [Text("Hostel Fees"), Text(hostel)],
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.blue.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(20)
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
+                      Text("Hostel",style: TextStyle(fontSize: 20),),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text("Fee : " + hostel),
+                      Text("Amount Due : 0.00" ),
+                      Text("Due date : 22/09/2022" ),
+                      SizedBox(height: 20),
+
+                      ElevatedButton(onPressed: (){}, child:Text("Pay Hostel Fee"),
+                        style: ElevatedButton.styleFrom(primary: Color(0xFF3FC979)),
+                      )
+
+
+                    ],
+                  ),
+                ),
               ),
-              SizedBox(
-                height: 30,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [Text("Other Fees"), Text(other)],
-              )
-            ],
+            ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton(
-                onPressed: () {},
-                child: Text("Pay Hostel"),
+
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.blue.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(20)
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
+                      Text("Amenities",style: TextStyle(fontSize: 20),),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text("Fee : " + other),
+                      Text("Amount Due : 0.00" ),
+                      Text("Due date : 22/09/2022" ),
+                      SizedBox(height: 20),
+
+                      ElevatedButton(onPressed: (){}, child:Text("Pay Amenities Fee"),
+                        style: ElevatedButton.styleFrom(primary: Color(0xFF3FC979)),
+                      )
+
+
+                    ],
+                  ),
+                ),
               ),
-              SizedBox(
-                width: 50,
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Text("Pay Other"),
-              ),
-            ],
+            ),
           ),
+
         ],
       ),
     );

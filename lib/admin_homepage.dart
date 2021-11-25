@@ -107,12 +107,12 @@ class _HomepageState extends State<Homepage> {
             ListTile(
               title: const Text("Profile"),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Profile(),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => Profile(),
+                //   ),
+                // );
               },
             )
           ],

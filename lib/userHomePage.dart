@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'functions.dart';
 import 'user_issues.dart';
 import 'user_payment.dart';
+import 'user_profile.dart';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -82,40 +83,6 @@ class _UserHomePageState extends State<UserHomePage> {
   }
 }
 
-class Profile extends StatelessWidget {
-  @override
-  List<String> lead = [
-    "Name",
-    "Roll Number",
-    "Room Number",
-    "Document",
-    "Move In",
-    "Move Out",
-    "Email"
-  ];
-  Widget build(BuildContext context) {
-    Firebase.initializeApp();
-    String email = "";
-    if (auth.currentUser != null) {
-      email = auth.currentUser!.email.toString();
-    }
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Profile"),
-      ),
-      body: Center(
-        child: ListView.builder(
-            itemCount: val.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                leading: Text(lead[index] + ": "),
-                title: Text(val[index]),
-              );
-            }),
-      ),
-    );
-  }
-}
 
 class FirstScreen extends StatelessWidget {
   Functions func = Functions();
@@ -141,6 +108,12 @@ class FirstScreen extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
+                  ClipRRect(
+                    child: Image.asset('assets/images/iiita.jpg',
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+
+                  ),
                   GestureDetector(
                     onTap: () async {
                       roominfo = await func.roominfo("bh1");
@@ -279,12 +252,12 @@ class FirstScreen extends StatelessWidget {
 
 Widget hostelCard(String title) {
   return Container(
-    height: 100,
-    width: 300,
-    margin: EdgeInsets.symmetric(vertical: 20),
+    height: 42,
+    width: 350,
+    margin: EdgeInsets.symmetric(vertical: 15),
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(10),
-      color: Colors.grey,
+      borderRadius: BorderRadius.circular(30),
+      color: Colors.blue.withOpacity(0.4),
     ),
     child: Center(child: Text(title)),
   );

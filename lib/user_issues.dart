@@ -15,6 +15,7 @@ class _UserIssuePageState extends State<UserIssuePage> {
         title: Text("Your Issues"),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFF3FC979),
         child: Icon(Icons.add),
         onPressed: () {
           String issue = "";
@@ -26,6 +27,7 @@ class _UserIssuePageState extends State<UserIssuePage> {
                 onChanged: (String value) {
                   issue = value;
                 },
+                expands: false,
                 decoration: InputDecoration(hintText: "Issue"),
               ),
               actions: [
@@ -46,44 +48,12 @@ class _UserIssuePageState extends State<UserIssuePage> {
         padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text("Sr No."),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Text("Issue"),
-                  ],
-                ),
-                Text("Status")
-              ],
-            ),
             Flexible(
               child: ListView.builder(
                 itemCount: func_issues.length,
                 itemBuilder: (BuildContext context, index) {
-                  String status = issues_resolved[index]
-                      ? "Issue Resolved"
-                      : "Issue Not Resolved";
-
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Text("${index + 1}"),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text(func_issues[index]),
-                        ],
-                      ),
-                      Text(status),
-                    ],
-                  );
+                  bool status = issues_resolved[index];
+                  return issuecard(func_issues[index], status, index);
                 },
               ),
             ),
@@ -92,4 +62,49 @@ class _UserIssuePageState extends State<UserIssuePage> {
       ),
     );
   }
+}
+
+Widget issuecard(String issue, bool status, int number) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.blue.withOpacity(0.3) ,
+        borderRadius: BorderRadius.circular(20)
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start  ,
+          children: [
+            Text("Issue no. : " + number.toString()),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      issue,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                      child: status
+                          ? const Text(
+                              "Resolved",
+                              style: TextStyle(color: Colors.green),
+                            )
+                          : const Text(
+                              "Not Resolved",
+                              style: TextStyle(color: Colors.red),
+                            )),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    ),
+  );
 }

@@ -32,7 +32,7 @@ class _DormDetailsState extends State<DormDetails> {
           if (color == 0) {
             background = Colors.red;
           } else if (color <= 2) {
-            background = Colors.yellow;
+            background = Colors.yellowAccent;
           } else {
             background = Colors.green;
           }
@@ -47,11 +47,14 @@ class _DormDetailsState extends State<DormDetails> {
                           )));
             },
             child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: background.withOpacity(0.6),
+              ),
               margin: EdgeInsets.all(8),
               child: Center(
                 child: Text("${index + 1}",style: TextStyle(color: Colors.black,fontSize: 15),),
               ),
-              color: background,
             ),
           );
         },

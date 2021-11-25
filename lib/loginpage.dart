@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:dormitory_management/functions.dart';
 import 'userHomePage.dart';
 import 'register.dart';
+import 'constants.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({Key? key}) : super(key: key);
@@ -32,75 +33,99 @@ class _LoginpageState extends State<Loginpage> {
       appBar: AppBar(
         title: const Text("Login Page"),
       ),
-      body: Column(
-        children: [
-          TextField(
-            onChanged: (value) {
-              email = value;
-            },
-            keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              hintText: "Email",
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 100,),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                onChanged: (value) {
+                  email = value;
+                },
+                keyboardType: TextInputType.emailAddress,
+                decoration:ktextfield.copyWith(hintText: "Email")
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          TextField(
-            onChanged: (value) {
-              password = value;
-            },
-            obscureText: true,
-            decoration: const InputDecoration(
-              hintText: "Password",
-            ),
-          ),
-          const SizedBox(
-            height: 40,
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              Functions func = Functions();
 
-              if (await func.signin(email, password)) {
-                val.clear();
-                await func.profileinfo(email);
-                if (await func.userpower()) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Homepage(admin: false)));
-                } else {
-                  await func.userIssue(val[1]);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => UserHomePage(),
-                    ),
-                  );
-                }
-              } else {
-                final snackbar = SnackBar(
-                  backgroundColor: Colors.blueGrey,
-                  behavior: SnackBarBehavior.floating,
-                  content: Text(
-                    "Incorrect User Credentials",
-                    style: TextStyle(color: Colors.red),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                onChanged: (value) {
+                  password = value;
+                },
+                obscureText: true,
+                  decoration:ktextfield.copyWith(hintText: "password")
+              ),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () async {
+                  Functions func = Functions();
+
+                  if (await func.signin(email, password)) {
+                    val.clear();
+                    await func.profileinfo(email);
+                    if (await func.userpower()) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Homepage(admin: false)));
+                    } else {
+                      await func.userIssue(val[1]);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UserHomePage(),
+                        ),
+                      );
+                    }
+                  } else {
+                    const snackbar = SnackBar(
+                      backgroundColor: Colors.blueGrey,
+                      behavior: SnackBarBehavior.floating,
+                      content: Text(
+                        "Incorrect User Credentials",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xFF3FC979),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackbar);
-              }
-            },
-            child: const Text("Log In"),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => RegisterScreen()));
-            },
-            child: const Text("Register"),
-          ),
-        ],
+                  minimumSize: Size(350, 42),
+                ),
+                child: const Text("Log In"),
+              ),
+            ),
+            Text("Not a member? "),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20,0,20,20),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => RegisterScreen()));
+                },
+                child: const Text("Register"),
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xFF3FC979),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  minimumSize: Size(350,42)
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
