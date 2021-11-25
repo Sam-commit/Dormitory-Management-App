@@ -69,7 +69,7 @@ class _StudentState extends State<Student> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => StudentInfo(
-                          studentinfo: widget.studentRecords[keys[index]]!),
+                          val: widget.studentRecords[keys[index]]!),
                     ),
                   );
                 },
