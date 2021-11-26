@@ -84,7 +84,6 @@ class _UserHomePageState extends State<UserHomePage> {
   }
 }
 
-
 class FirstScreen extends StatelessWidget {
   Functions func = Functions();
   List<Map<String, dynamic>> roominfo = [];
@@ -106,21 +105,19 @@ class FirstScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-
             Expanded(
               flex: 1,
               child: ClipRRect(
-                child: Image.asset('assets/images/iiita.jpg',
+                child: Image.asset(
+                  'assets/images/iiita.jpg',
                 ),
                 borderRadius: BorderRadius.circular(20),
-
               ),
             ),
             Expanded(
               flex: 2,
               child: ListView(
                 children: [
-
                   GestureDetector(
                     onTap: () async {
                       roominfo = await func.roominfo("bh1");

@@ -29,7 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: TextField(
                 decoration: ktextfield.copyWith(hintText: "Name"),
                 onChanged: (String value) {
@@ -38,7 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: TextField(
                 decoration: ktextfield.copyWith(hintText: "Roll Number"),
                 onChanged: (String value) {
@@ -47,7 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: TextField(
                 decoration: ktextfield.copyWith(hintText: "Move In"),
                 onChanged: (String value) {
@@ -56,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: TextField(
                 decoration: ktextfield.copyWith(hintText: "Move Out"),
                 onChanged: (String value) {
@@ -65,7 +65,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: TextField(
                 keyboardType: TextInputType.emailAddress,
                 decoration: ktextfield.copyWith(hintText: "Email"),
@@ -75,7 +75,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: TextField(
                 keyboardType: TextInputType.visiblePassword,
                 obscureText: true,
@@ -86,15 +86,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     primary: Color(0xFF3FC979),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    minimumSize: Size(350,42)
-                ),
+                    minimumSize: Size(350, 42)),
                 onPressed: () async {
                   bool val1 = await functions.register(email, pass);
                   if (val1) {
@@ -108,6 +107,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       "Email": email,
                       "hostelfee": false,
                       "otherfee": false,
+                    });
+                    _firestore.collection("uid").add({
+                      "email": email,
+                      "password": pass,
                     });
                     val.clear();
                     val.add(name);
@@ -123,8 +126,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     payment.add(false);
                     payment.add(false);
                     await functions.userIssue(val[1]);
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => UserHomePage()));
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UserHomePage()));
                   } else {
                     const snackbar = SnackBar(
                       backgroundColor: Colors.blueGrey,

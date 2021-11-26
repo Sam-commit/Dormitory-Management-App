@@ -269,8 +269,8 @@ class Functions {
     OpenFile.open("${output.path}/${rollno}");
   }
 
-  Future removestudent(
-      Map<String, List<String>> studentRecords, Set<String> students) async {
+  Future removestudent(Map<String, List<String>> studentRecords,
+      Set<String> students, List<String> email) async {
     int k = 0;
 
     for (int i = 0; i < students.length; i++) {
@@ -294,6 +294,17 @@ class Functions {
         }
       }
     });
+    for (int i = 0; i < email.length; i++) {
+      await firestore
+          .collection('uid')
+          .where('email', isEqualTo: email[i])
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((documentSnapshot) {
+          documentSnapshot.reference.delete();
+        });
+      });
+    }
   }
 
   Future<List<List<dynamic>>> adminIssues() async {
@@ -378,5 +389,39 @@ class Functions {
       }
     });
     return ans;
+  }
+
+  Future deleteUserFromAuthentication(List<String> email) async {
+    String adminemail = val[6];
+    String adminpass = "";
+    List<String> password = [];
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    await firestore
+        .collection('uid')
+        .where('email', isEqualTo: adminemail)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((documentSnapshot) async {
+        adminpass = documentSnapshot["password"];
+      });
+    });
+    for (int i = 0; i < email.length; i++) {
+      await firestore
+          .collection('uid')
+          .where('email', isEqualTo: email[i])
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((documentSnapshot) async {
+          password.add(documentSnapshot["password"]);
+        });
+      });
+    }
+    for (int i = 0; i < email.length; i++) {
+      await _auth.signInWithEmailAndPassword(
+          email: email[i], password: password[i]);
+      await _auth.currentUser!.delete();
+    }
+    await _auth.signInWithEmailAndPassword(
+        email: adminemail, password: adminpass);
   }
 }
