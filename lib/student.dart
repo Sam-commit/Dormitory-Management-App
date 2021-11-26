@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'studentinfo.dart';
 import 'allot_dormview.dart';
 import 'functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 Functions functions = Functions();
 
@@ -19,6 +20,7 @@ class _StudentState extends State<Student> {
   get keys => widget.studentRecords.keys.toList();
   List<bool> ischecked = [];
   Set<String> todelete = {};
+  List<String> emailsToBeDeleted = [];
 
   bool checklist = false;
 
@@ -46,10 +48,15 @@ class _StudentState extends State<Student> {
             for (int i = 0; i < ischecked.length; i++) {
               if (ischecked[i] == true) {
                 todelete.add(keys[i]);
+                emailsToBeDeleted.add(widget.studentRecords[keys[i]]![6]);
               }
             }
 
-            await functions.removestudent(widget.studentRecords, todelete);
+            FirebaseAuth _auth = FirebaseAuth.instance;
+            await _auth.signOut();
+            await functions.deleteUserFromAuthentication(emailsToBeDeleted);
+            await functions.removestudent(
+                widget.studentRecords, todelete, emailsToBeDeleted);
             Navigator.pop(context);
           },
           child: const Icon(Icons.delete_forever),
@@ -67,8 +74,8 @@ class _StudentState extends State<Student> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => StudentInfo(
-                          val: widget.studentRecords[keys[index]]!),
+                      builder: (context) =>
+                          StudentInfo(val: widget.studentRecords[keys[index]]!),
                     ),
                   );
                 },
@@ -81,8 +88,6 @@ class _StudentState extends State<Student> {
 
                   setState(() {});
                 },
-
-
                 child: Padding(
                   padding: const EdgeInsets.all(13.0),
                   child: Container(
@@ -98,13 +103,12 @@ class _StudentState extends State<Student> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(widget.studentRecords[keys[index]]![0]),
-                              Text(keys[index],
+                              Text(
+                                keys[index],
                                 style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black54
-
-                                ),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black54),
                               )
                             ],
                           ),
