@@ -1,7 +1,10 @@
+import 'package:dormitory_management/success.dart';
 import 'package:flutter/material.dart';
 import 'functions.dart';
 import 'package:upi_pay/upi_pay.dart';
 import 'func_upipay.dart';
+import 'success.dart';
+import 'failure.dart';
 
 int curr = -1;
 String status = "", name = "", address = "", number = "", buyid = "";
@@ -54,9 +57,6 @@ class _UserPaymentPageState extends State<UserPaymentPage> {
                               await UpiPay.getInstalledUpiApplications(
                                   statusType:
                                       UpiApplicationDiscoveryAppStatusType.all);
-                          for (int i = 0; i < appMetaList.length; i++) {
-                            print(appMetaList[i].upiApplication);
-                          }
                           showDialog(
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
@@ -80,13 +80,30 @@ class _UserPaymentPageState extends State<UserPaymentPage> {
                                                         appMetaList[curr]);
                                                     if (status ==
                                                         "UpiTransactionStatus.success") {
-                                                      print("Hello");
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              SuccessScreen(),
+                                                        ),
+                                                      );
                                                     } else if (status ==
                                                         "UpiTransactionStatus.submitted") {
-                                                      print("IDK");
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              SuccessScreen(),
+                                                        ),
+                                                      );
                                                     } else {
-                                                      print("some error:" +
-                                                          status);
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              FailureScreen(),
+                                                        ),
+                                                      );
                                                     }
                                                   },
                                                   child: Column(
