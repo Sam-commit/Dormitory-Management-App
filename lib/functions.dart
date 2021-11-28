@@ -424,4 +424,39 @@ class Functions {
     await _auth.signInWithEmailAndPassword(
         email: adminemail, password: adminpass);
   }
+
+  Future addAdmin(String email, String name) async {
+    CollectionReference users = firestore.collection('Users');
+    await users.add({
+      "name": name,
+      "email": email,
+    });
+  }
+
+  Future<List<List<String>>> getAdmins() async {
+    List<List<String>> ans = [];
+    int index = 0;
+    CollectionReference users = firestore.collection('Users');
+    await users.get().then((QuerySnapshot querySnapshot) {
+      for (var element in querySnapshot.docs) {
+        ans.add([]);
+        ans[index].add(element["name"]);
+        ans[index].add(element["email"]);
+        index++;
+      }
+    });
+    return ans;
+  }
+
+  Future removeAdmin(String email) async {
+    await firestore
+        .collection('Users')
+        .where('email', isEqualTo: email)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((documentSnapshot) async {
+        await documentSnapshot.reference.delete();
+      });
+    });
+  }
 }

@@ -11,6 +11,7 @@ import 'admin_issues.dart';
 import 'admin_payment.dart';
 import 'userHomePage.dart';
 import 'user_profile.dart';
+import 'list_admin.dart';
 
 class Homepage extends StatefulWidget {
   Homepage({required this.name});
@@ -116,7 +117,19 @@ class _HomepageState extends State<Homepage> {
                     ),
                   );
                 },
-              )
+              ),
+              ListTile(
+                title: Text("Admins"),
+                onTap: () async {
+                  List<List<String>> admins = await functions.getAdmins();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ListAdmin(admins: admins),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),
@@ -134,7 +147,7 @@ class _HomepageState extends State<Homepage> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(10,20,10,10),
+              padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
               child: ClipRRect(
                 child: Image.asset(
                   'assets/images/iiita.jpg',
@@ -149,7 +162,7 @@ class _HomepageState extends State<Homepage> {
                   return Container(
                     height: 50,
                     width: 350,
-                    margin: EdgeInsets.symmetric(vertical: 11,horizontal: 20),
+                    margin: EdgeInsets.symmetric(vertical: 11, horizontal: 20),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       color: Color(0xFF3FC979).withOpacity(0.25),
