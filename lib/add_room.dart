@@ -65,7 +65,7 @@ class _AddRoomState extends State<AddRoom> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: Color(0xFF3FC979),
-        onPressed: () {
+        onPressed: () async{
           showDialog(
             context: context,
             builder: (BuildContext context) => AlertDialog(
@@ -95,7 +95,7 @@ class _AddRoomState extends State<AddRoom> {
               actions: [
                 TextButton(
                   onPressed: () async {
-                    functions.addroom(room, beds, widget.title);
+                    await functions.addroom(room, beds, widget.title);
                     widget.val.clear();
                     widget.val = await functions.roominfo(widget.title);
                     setState(() {

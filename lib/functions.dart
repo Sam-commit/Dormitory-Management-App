@@ -1,3 +1,5 @@
+
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +64,58 @@ class Functions {
     return name;
   }
 
+  Future<List<List<dynamic>>> hostels() async {
+    List<List<dynamic>> hostels = [];
+
+    await firestore
+        .collection('hostels').orderBy('name')
+        .get()
+        .then((QuerySnapshot querySnapshot) async {
+      for ( var element in querySnapshot.docs) {
+
+        //print(element["info"]);
+
+        DocumentReference docRef = FirebaseFirestore.instance.doc(element["info"]);
+
+        //print(docRef.toString());
+
+        var a = await userData(docRef);
+
+         print(a()["beds"]);
+
+        hostels.add([
+          element["name"],
+          a()["beds"],
+          a()["available"],
+        ]);
+      }
+    });
+
+    return hostels;
+  }
+
+  Future<dynamic> userData(DocumentReference user) async {
+    DocumentSnapshot userRef = await user.get();
+    print(userRef.data());
+    return userRef.data;
+  }
+
+  Future hostelstatusupdate(int count,String hostel,bool roomadded)async{
+
+      DocumentSnapshot doc = await firestore.collection(hostel).doc("total").get();
+
+      doc.reference.update({
+        "available" : doc["available"]+count,
+      });
+
+      if(roomadded){
+        doc.reference.update({
+          "beds" : doc["beds"]+count,
+        });
+      }
+
+  }
+
   Future<Map<String, List<String>>> studentinfo() async {
     Map<String, List<String>> studentRecords = {};
 
@@ -103,9 +157,12 @@ class Functions {
     return rooms;
   }
 
-  void addroom(int room, int beds, String hostelname) {
+  Future addroom(int room, int beds, String hostelname) async{
+
+    await hostelstatusupdate(beds, hostelname, true);
+
     CollectionReference hostel = firestore.collection(hostelname);
-    hostel.add({
+    await hostel.add({
       "allocated": 0,
       "beds": beds,
       "number": room,
@@ -157,6 +214,9 @@ class Functions {
 
   Future allotRoom(
       List<String> studentinfo, String hostelname, int room) async {
+
+    await hostelstatusupdate(-1, hostelname, false);
+
     await firestore
         .collection('students')
         .where('Name', isEqualTo: studentinfo[0])
@@ -192,8 +252,14 @@ class Functions {
   }
 
   Future removeRoom(List<String> studentinfo) async {
+
+
+
     String hostelname =
         studentinfo[2][0] + studentinfo[2][1] + studentinfo[2][2];
+
+    await hostelstatusupdate(1, hostelname, false);
+
     int room;
     String a = "";
     for (int i = 3; i < studentinfo[2].length; i++) {

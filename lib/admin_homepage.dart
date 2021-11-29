@@ -14,9 +14,10 @@ import 'user_profile.dart';
 import 'list_admin.dart';
 
 class Homepage extends StatefulWidget {
-  Homepage({required this.name});
+  Homepage({required this.name, required this.hostels});
 
   String name;
+  List<List<dynamic>> hostels;
 
   @override
   _HomepageState createState() => _HomepageState();
@@ -24,15 +25,7 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   Functions functions = Functions();
-  List<String> hostels = const [
-    "Boys Hostel 1",
-    "Boys Hostel 2",
-    "Boys Hostel 3",
-    "Boys Hostel 4",
-    "Boys Hostel 5",
-    "Girls Hostel 1",
-    "Girls Hostel 2"
-  ];
+
   List<String> titl = const ["bh1", "bh2", "bh3", "bh4", "bh5", "gh1", "gh2"];
 
   Map<String, List<String>> studentRecords = {};
@@ -157,7 +150,7 @@ class _HomepageState extends State<Homepage> {
             ),
             Flexible(
               child: ListView.builder(
-                itemCount: hostels.length,
+                itemCount: widget.hostels.length,
                 itemBuilder: (context, index) {
                   return Container(
                     height: 50,
@@ -168,7 +161,14 @@ class _HomepageState extends State<Homepage> {
                       color: Color(0xFF3FC979).withOpacity(0.25),
                     ),
                     child: ListTile(
-                      title: Center(child: Text(hostels[index])),
+                      title: Center(child: Text(widget.hostels[index][0])),
+                      subtitle: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Beds : " + widget.hostels[index][1].toString()),
+                          Text("available : " + widget.hostels[index][2].toString()),
+                          ]
+                      ),
                       onTap: () async {
                         List<Map<String, dynamic>> val =
                             await functions.roominfo(titl[index]);
@@ -176,7 +176,7 @@ class _HomepageState extends State<Homepage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                AddRoom(val: val, title: titl[index]),
+                               AddRoom(val: val, title: titl[index]),
                           ),
                         );
                       },

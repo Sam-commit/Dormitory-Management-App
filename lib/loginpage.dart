@@ -72,10 +72,11 @@ class _LoginpageState extends State<Loginpage> {
                     await func.profileinfo(email);
                     String name = await func.userpower();
                     if (name!="") {
+                      List<List<dynamic>> hostels = await func.hostels();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Homepage(name:name )));
+                              builder: (context) => Homepage(name:name ,hostels: hostels,)));
                     } else {
                       await func.userIssue(val[1]);
                       Navigator.push(
