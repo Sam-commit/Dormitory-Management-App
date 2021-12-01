@@ -15,8 +15,10 @@ Dormitory Management App is our Project for the course OOM. This is made by :-
 
 - Users are classified into users and admins. On login both get directed to a different screen.
 
-UserHomePage:  <img src="https://user-images.githubusercontent.com/75743237/144250363-8ec0519b-0ed0-4c5f-a1e8-05625e24fad3.jpeg" width="300" height="500" />
-AdminHomePage:  <img src="https://user-images.githubusercontent.com/75743237/144250359-0c2074c1-93c1-4fc1-95d1-83d6d35a01fa.jpeg" width="300" height="500" />
+- UserHomePage:  
+- <img src="https://user-images.githubusercontent.com/75743237/144250363-8ec0519b-0ed0-4c5f-a1e8-05625e24fad3.jpeg" width="300" height="500" />
+- AdminHomePage:  
+- <img src="https://user-images.githubusercontent.com/75743237/144250359-0c2074c1-93c1-4fc1-95d1-83d6d35a01fa.jpeg" width="300" height="500" />
 
 - Users can check their Alloted Hostel Room and Ask for Reallotment of room in their profile Page.
 <img src="https://user-images.githubusercontent.com/75743237/144250627-9b196b23-e39a-45b1-9ef9-c7f3570a8c65.jpeg" width="300" height="500" />
