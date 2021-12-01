@@ -153,7 +153,7 @@ class _HomepageState extends State<Homepage> {
                 itemCount: widget.hostels.length,
                 itemBuilder: (context, index) {
                   return Container(
-                    height: 50,
+                    height: 150,
                     width: 350,
                     margin: EdgeInsets.symmetric(vertical: 11, horizontal: 20),
                     decoration: BoxDecoration(
@@ -161,13 +161,24 @@ class _HomepageState extends State<Homepage> {
                       color: Color(0xFF3FC979).withOpacity(0.25),
                     ),
                     child: ListTile(
-                      title: Center(child: Text(widget.hostels[index][0])),
-                      subtitle: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      title: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Beds : " + widget.hostels[index][1].toString()),
-                          Text("available : " + widget.hostels[index][2].toString()),
-                          ]
+                          Center(
+                            child: Text(widget.hostels[index][0]),
+                          ),
+                          SizedBox(
+                            height: 50,
+                          ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Beds : " +
+                                    widget.hostels[index][1].toString()),
+                                Text("available : " +
+                                    widget.hostels[index][2].toString()),
+                              ]),
+                        ],
                       ),
                       onTap: () async {
                         List<Map<String, dynamic>> val =
@@ -176,7 +187,7 @@ class _HomepageState extends State<Homepage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                               AddRoom(val: val, title: titl[index]),
+                                AddRoom(val: val, title: titl[index]),
                           ),
                         );
                       },
