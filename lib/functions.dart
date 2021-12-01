@@ -1,5 +1,3 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -68,20 +66,21 @@ class Functions {
     List<List<dynamic>> hostels = [];
 
     await firestore
-        .collection('hostels').orderBy('name')
+        .collection('hostels')
+        .orderBy('name')
         .get()
         .then((QuerySnapshot querySnapshot) async {
-      for ( var element in querySnapshot.docs) {
-
+      for (var element in querySnapshot.docs) {
         //print(element["info"]);
 
-        DocumentReference docRef = FirebaseFirestore.instance.doc(element["info"]);
+        DocumentReference docRef =
+            FirebaseFirestore.instance.doc(element["info"]);
 
         //print(docRef.toString());
 
         var a = await userData(docRef);
 
-         print(a()["beds"]);
+        print(a()["beds"]);
 
         hostels.add([
           element["name"],
@@ -100,20 +99,19 @@ class Functions {
     return userRef.data;
   }
 
-  Future hostelstatusupdate(int count,String hostel,bool roomadded)async{
+  Future hostelstatusupdate(int count, String hostel, bool roomadded) async {
+    DocumentSnapshot doc =
+        await firestore.collection(hostel).doc("total").get();
 
-      DocumentSnapshot doc = await firestore.collection(hostel).doc("total").get();
+    doc.reference.update({
+      "available": doc["available"] + count,
+    });
 
+    if (roomadded) {
       doc.reference.update({
-        "available" : doc["available"]+count,
+        "beds": doc["beds"] + count,
       });
-
-      if(roomadded){
-        doc.reference.update({
-          "beds" : doc["beds"]+count,
-        });
-      }
-
+    }
   }
 
   Future<Map<String, List<String>>> studentinfo() async {
@@ -157,8 +155,7 @@ class Functions {
     return rooms;
   }
 
-  Future addroom(int room, int beds, String hostelname) async{
-
+  Future addroom(int room, int beds, String hostelname) async {
     await hostelstatusupdate(beds, hostelname, true);
 
     CollectionReference hostel = firestore.collection(hostelname);
@@ -214,7 +211,6 @@ class Functions {
 
   Future allotRoom(
       List<String> studentinfo, String hostelname, int room) async {
-
     await hostelstatusupdate(-1, hostelname, false);
 
     await firestore
@@ -252,9 +248,6 @@ class Functions {
   }
 
   Future removeRoom(List<String> studentinfo) async {
-
-
-
     String hostelname =
         studentinfo[2][0] + studentinfo[2][1] + studentinfo[2][2];
 
@@ -300,6 +293,19 @@ class Functions {
   }
 
   Future generatePDF(String rollno) async {
+    List<pw.Widget> issues = [];
+    await firestore
+        .collection("issues")
+        .where('rollno', isEqualTo: rollno)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((documentSnapshot) {
+        String temp = documentSnapshot["issue"];
+        bool tem = documentSnapshot["resolved"];
+        String cond = tem ? "Resolved" : "Not Resolved";
+        issues.add(pw.Text(temp + "     " + cond));
+      });
+    });
     pdf = pw.Document();
     await firestore
         .collection('students')
@@ -324,6 +330,7 @@ class Functions {
                   pw.Text("Move Out Date: " + documentSnapshot["Moveout"]),
                   pw.Text("Hostel Fee Status: " + hostelfee),
                   pw.Text("Other Fee Status: " + otherfee),
+                  pw.Column(children: issues),
                 ]));
               }),
         );
